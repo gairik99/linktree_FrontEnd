@@ -1,7 +1,9 @@
 import './App.css'
-import SignupPage from './pages/SignupPage'
-import SignInPage from './pages/SigninPage'
 import { Route, Routes } from 'react-router-dom'
+import SignupPage from './pages/SignupPage'
+import Home from './pages/Home'
+import SignInPage from './pages/SigninPage'
+import UserNameUpdatePage from './pages/UserNameUpdatePage'
 
 function App() {
 
@@ -10,6 +12,8 @@ function App() {
       <Routes>
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/signin' element={<SignInPage />} />
+        <Route path='/usernameupdate' element={<UserNameUpdatePage />} />
+        <Route path='/' element={<Home />} />
       </Routes>
     </>
   )

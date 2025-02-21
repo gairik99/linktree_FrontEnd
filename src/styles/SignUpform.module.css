@@ -30,16 +30,7 @@
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 6px;
-}
-
-.checkboxGroup {
-  margin-bottom: 1rem;
-}
-
-.checkboxGroup label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .error {
@@ -97,13 +88,17 @@
 }
 .checkboxGroup {
   margin-bottom: 1.5rem;
+  display: flex;
+  align-items: start;
+  justify-content: start;
 }
 
 .checkboxGroup label {
   display: flex;
-  align-items: flex-start;
+  align-items: start;
   gap: 1rem;
   line-height: 1.4;
+  margin-left: 0;
 }
 
 .checkboxText {
@@ -114,11 +109,12 @@
 .link {
   text-decoration: underline;
   cursor: pointer;
-  white-space: nowrap;
 }
 
 .checkboxGroup input[type="checkbox"] {
-  margin-top: 3px; /* Fine-tune alignment */
+  margin-top: 3px;
+  width: 12px; /* Fine-tune alignment */
+  height: 12px; /* Fine-tune alignment */
 }
 .authHeader {
   display: flex;
@@ -145,7 +141,7 @@
 .eyeIcon {
   position: absolute;
   right: 10px;
-  top: 50%;
+  top: 60%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #676b5f;
