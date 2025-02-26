@@ -1,0 +1,91 @@
+.container {
+  padding: 1rem;
+  overflow-y: auto;
+  height: calc(100% - 170px);
+  width: 98%;
+}
+
+.linkItem {
+  text-decoration: none;
+  color: inherit;
+  display: flex; /* Changed from inline-block */
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  background: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  width: 100%; /* Ensure full width */
+  min-height: 60px; /* Minimum height for better centering */
+}
+
+.linkItem:hover {
+  transform: translateY(-2px);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  width: 100%; /* Take full width of linkItem */
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 1rem;
+}
+
+.textContainer {
+  flex: 1;
+  text-align: center; /* Center text horizontally */
+}
+
+.title {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 1rem;
+}
+
+.noLinks {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+}
+
+/* Layout Variations */
+.stack .linkItem {
+  width: 100%;
+}
+.stack .textContainer {
+  text-align: start;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  align-items: center; /* Center grid items vertically */
+  justify-items: center; /* Center grid items horizontally */
+}
+
+.grid .linkItem {
+  margin-bottom: 0;
+  height: 100%; /* Take full height of grid cell */
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+}
+
+.carousel .linkItem {
+  flex: 0 0 80%;
+  margin-right: 1rem;
+  scroll-snap-align: start;
+  height: auto; /* Adjust height as needed */
+}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/authContext";
 import { updateUserProfile } from "../services/action";
@@ -23,10 +24,11 @@ const buttonArr = [
 ];
 
 const UserNameUpdatePage = () => {
+    const navigate = useNavigate();
     const { user, setUser } = useAuth();
     const [formData, setFormData] = useState({
-        userName: "",
-        category: "",
+        userName: user.userName || "",
+        category: user.category || "",
     });
     const [loading, setLoading] = useState(false);
     const handleCategorySelect = (categoryId) => {
@@ -49,8 +51,11 @@ const UserNameUpdatePage = () => {
         setLoading(true);
 
         try {
+            if (formData.userName === "" || formData.category === "") {
+                toast.error("Please fill all the fields");
+                return;
+            }
             const response = await updateUserProfile(formData, user.token);
-            console.log(response);
             if (response.message) {
                 toast.success(response.message);
                 setUser(prev => ({
@@ -58,6 +63,7 @@ const UserNameUpdatePage = () => {
                     userName: response.user.userName,
                     category: response.user.category
                 }));
+                navigate("/link");
             }
 
 
@@ -83,14 +89,14 @@ const UserNameUpdatePage = () => {
                 <h4 style={{ color: "#676B5F" }}>
                     For a personalized Spark experience
                 </h4>
-                <input type="text" placeholder="Tell us your username" value={formData.userName || user.userName}
+                <input type="text" placeholder="Tell us your username" value={formData.userName}
                     onChange={handleUsernameChange} />
                 <span style={{ marginTop: '5vh' }}>Select one category that best describes your Linktree:</span>
                 <div className={styles.buttonsContainer}>
                     {buttonArr.map((button) => (
                         <button
                             key={button.id}
-                            className={`${styles.categoryButton} ${user.category === button.id.toString() ? styles.selected : ""
+                            className={`${styles.categoryButton} ${formData.category === button.id.toString() ? styles.selected : ""
                                 }`}
                             onClick={() => handleCategorySelect(button.id.toString())}
                         >

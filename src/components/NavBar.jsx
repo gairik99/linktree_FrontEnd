@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/Group.png";
 import styles from "../styles/NavBar.module.css"
 
 const NavBar = () => {
+
+    const navigate = useNavigate();
     return (
         <nav className={styles.navbar}>
             <div className={styles.navbarLeft}>
@@ -11,7 +14,7 @@ const NavBar = () => {
                 </span>
             </div>
             <div className={styles.navbarRight}>
-                <button className={styles.navbarButton}>Sign up free</button>
+                <button className={styles.navbarButton} onClick={() => navigate('/signup')}>Sign up free</button>
             </div>
         </nav>
     )

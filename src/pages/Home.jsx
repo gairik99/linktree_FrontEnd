@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom"
+
 import NavBar from "../components/NavBar"
 import styles from "../styles/Home.module.css"
 import analytics1 from "../assets/analytics1.png"
@@ -13,13 +15,23 @@ import img6 from "../assets/AutoLayoutHorizontal5.png"
 import img7 from "../assets/AutoLayoutHorizontal6.png"
 import img8 from "../assets/AutoLayoutHorizontal7.png"
 import img9 from "../assets/AutoLayoutHorizontal8.png"
+import footerimage from "../assets/footerImg.png"
+
 
 const Home = () => {
+    const navigate = useNavigate()
     const images = [
         img1, img2, img3,
         img4, img5, img6,
         img7, img8, img9
     ];
+    const arrFooter1 = [
+        'About Spark', 'Careers', 'Terms and Conditions',
+        'Blog', 'Getting Started', 'Privacy Policy',
+        'Press', 'Features', 'Cookie Notice',
+        'Social Good', 'FAQS', 'Trust Center',
+        'Contact', 'Report And Violation'
+    ]
     return (
         <div style={{ display: "flex", overflowY: "auto", justifyContent: 'center', margin: '0px', flexDirection: 'column', overflowX: 'hidden', position: 'relative', background: '#F1F6FA', }} >
             <NavBar />
@@ -130,6 +142,25 @@ const Home = () => {
                         />
                     </div>
                 ))}
+            </div>
+            <div style={{ display: 'flex', height: '35vh', width: '95%', margin: 'auto', marginTop: '6vh', background: 'white' }}>
+                <div style={{ display: 'flex', margin: '2rem' }}>
+                    <button style={{ background: '#D3D3D3', marginRight: '1vw', height: '6vh', width: '4vw', border: 'none', borderRadius: '10px' }} onClick={() => navigate('/signin')} >Log in</button>
+                    <button className={styles.button1} style={{ height: '6vh', width: '6vw' }} onClick={() => navigate('/signup')}>Sign up</button>
+                </div>
+                <div className={styles.gridContainer}>
+                    {arrFooter1.map((item, index) => (
+                        <div key={index} className={styles.gridItem}>{item}</div>
+                    ))}
+                </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '95%', height: '10vh', margin: "auto", background: 'white' }}>
+                <div style={{ width: '40%', margin: '2rem', fontWeight: '600', fontSize: '0.8rem' }}>
+                    We acknowledge the Traditional Custodians of the land on which our office stands, The Wurundjeri people of the Kulin Nation, and pay our respects to Elders past, present and emerging.
+                </div>
+                <div >
+                    <img src={footerimage} style={{ marginRight: '1rem', margin: '2rem' }} />
+                </div>
             </div>
         </div>
     )
