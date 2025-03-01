@@ -6,7 +6,7 @@ import styles from "../styles/SignUpform.module.css";
 import { validateForm } from "../utils/validateSignUpForm";
 import { registerUser } from "../services/action";
 
-const SignupForm = () => {
+const SignUpForm = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         firstName: "",
@@ -208,4 +208,4 @@ const SignupForm = () => {
     );
 };
 
-export default SignupForm;
+export default SignUpForm;
