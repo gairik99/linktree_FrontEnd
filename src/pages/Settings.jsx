@@ -23,6 +23,7 @@ const Settings = () => {
             const err = validateUpdateForm(formData);
             if (err) {
                 toast.error(err);
+                return;
             }
 
             const payload = {};
