@@ -6,6 +6,7 @@ import shopimg from '../assets/shopimg.png'
 import shopimg2 from '../assets/shopimg2.png'
 import styles from '../styles/PhoneShopContainer.module.css'
 import classes from '../styles/Appearance.module.css';
+import { createClick } from '../services/action'
 
 
 const PhoneShopContainer = () => {
@@ -19,11 +20,20 @@ const PhoneShopContainer = () => {
     let buttonBackground = style.buttonColor || user.buttonColor
     let buttonFontColor = style.buttonFontColor || user.buttonFontColor
     let layout = style.buttonAlignment || user.buttonAlignment || 'stack'
+    let id = user.id
 
     useEffect(() => {
         setLocallink(link.filter((linkItem) => linkItem.category === 'shop'));
     }, [link]);
     // console.log('phoneLink', localLink, layout)
+    const handleClick = async (linkId, domain, category) => {
+        try {
+            const response = await createClick({ id, domain, category }, linkId);
+            console.log(response)
+        } catch (error) {
+            console.error('Error tracking click:', error);
+        }
+    };
 
     return (
         <div className={`${styles.container} ${styles[layout]}`} style={{ background: theme }}>
@@ -52,6 +62,11 @@ const PhoneShopContainer = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={styles.button}
+                                    onClick={() => handleClick(
+                                        linkItem._id,
+                                        linkItem.domain,
+                                        linkItem.category
+                                    )}
                                 >
                                     <img src={shopimg2} alt="Shop link" />
                                     <span style={{ color: 'white' }}>Buy Now</span>

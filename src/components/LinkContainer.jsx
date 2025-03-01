@@ -26,7 +26,7 @@ const LinkContainer = () => {
                 setLink(data.data);
                 // console.log("Link data:", link);
             } catch (error) {
-                console.error("Error fetching links:", error);
+                toast.error('something went wrong', error)
             }
         };
         fetchLinks();

@@ -6,7 +6,7 @@ import { useStyle } from "../context/styleContext";
 import TabComponent from "../components/TabComponent"
 import PhoneLinkContainer from "./PhoneLinkContainer";
 import { toast } from "react-toastify";
-
+import { createClick } from "../services/action";
 import PhoneShopContainer from "./PhoneShopContainer";
 import { useTab } from "../context/tabContext";
 
@@ -19,14 +19,21 @@ const PhoneView = () => {
     const profilelink = `http://localhost:5173/profile/${user.id}`
     const handleClick = async () => {
         try {
+            // Copy to clipboard
             await navigator.clipboard.writeText(profilelink);
-            toast.success('profile link copied !!')
+            toast.success('Profile link copied!');
+
+            // Track share click
+            const response = await createClick({
+                id: user.id,
+                category: 'cta',
+                domain: 'others'
+            });
+            console.log('phoneView', response)
 
         } catch (err) {
-            toast.error('cound not copy profile link', err.message)
+            toast.error('Could not copy profile link', err.message);
         }
-
-
     }
     return (
         <div

@@ -65,3 +65,27 @@ export const deleteLink = async (token, linkId) => {
   });
   return response.data;
 };
+
+export const getUserWithLinks = async (userId) => {
+  const response = await axios.get(`${API_URL}/user/userwithlinks/${userId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data;
+};
+
+export const createClick = async (linkData, linkId) => {
+  const data = {
+    user: linkData.id,
+    domain: linkData.domain,
+    category: linkData.category,
+  };
+
+  const url = linkId
+    ? `${API_URL}/click/createclick/${linkId}`
+    : `${API_URL}/click/createclick`;
+
+  const response = await axios.post(url, data);
+  return response.data;
+};

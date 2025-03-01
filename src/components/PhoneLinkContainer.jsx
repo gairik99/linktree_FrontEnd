@@ -9,6 +9,7 @@ import instagram from '../assets/instagram.png'
 import other from '../assets/Group.png'
 import styles from '../styles/PhoneLinkContainer.module.css'
 import classes from '../styles/Appearance.module.css';
+import { createClick } from '../services/action'
 
 
 const PhoneLinkContainer = () => {
@@ -22,8 +23,9 @@ const PhoneLinkContainer = () => {
     let buttonBackground = style.buttonColor || user.buttonColor
     let buttonFontColor = style.buttonFontColor || user.buttonFontColor
     let layout = style.buttonAlignment || user.buttonAlignment || 'stack'
+    let id = user.id
 
-    console.log(style)
+    // console.log(style)
 
     const imageArr = [
         { id: 1, domain: 'facebook', icon: facebook },
@@ -43,6 +45,15 @@ const PhoneLinkContainer = () => {
     }, [link]);
     // console.log('phoneLink', style)
 
+    const handleClick = async (linkId, domain, category) => {
+        try {
+            const response = await createClick({ id, domain, category }, linkId);
+            console.log(response)
+        } catch (error) {
+            console.error('Error tracking click:', error);
+        }
+    };
+
     return (
         <div className={`${styles.container} ${styles[layout]}`} style={{ background: theme }}>
             {localLink.length === 0 ? (
@@ -56,6 +67,11 @@ const PhoneLinkContainer = () => {
                         rel="noopener noreferrer"
                         className={`${styles.linkItem} ${classes[buttonStyle]}`}
                         style={{ background: buttonBackground }}
+                        onClick={() => handleClick(
+                            linkItem._id,
+                            linkItem.domain,
+                            linkItem.category
+                        )}
                     >
                         <div className={styles.content} style={{ color: buttonFontColor }}>
                             <img
