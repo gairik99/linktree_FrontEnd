@@ -16,7 +16,7 @@ const PhoneView = () => {
     const { activeTab } = useTab();
     // console.log(user);
     let background = style.theme || user.theme
-    const profilelink = `http://localhost:5173/profile/${user.id}`
+    const profilelink = `https://linktreegairik.netlify.app/profile/${user.id}`
     const handleClick = async () => {
         try {
             // Copy to clipboard
