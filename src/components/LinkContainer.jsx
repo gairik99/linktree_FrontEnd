@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react"
-import { toast } from "react-toastify"
-import { useLink } from "../context/linkContext"
-import { useAuth } from "../context/authContext"
-import { getLink, updateLink, deleteLink } from "../services/action"
-import { useTab } from "../context/tabContext"
-import Switch from "./Switch"
-import { extractDomain } from "../services/extractDomain"
-
-import styles from '../styles/LinkContainer.module.css'
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useLink } from "../context/linkContext";
+import { useAuth } from "../context/authContext";
+import { updateLink, deleteLink, getLinkWithClicks } from "../services/action";
+import { useTab } from "../context/tabContext";
+import Switch from "./Switch";
+import { extractDomain } from "../services/extractDomain";
+import { CiEdit } from "react-icons/ci";
+import { MdDeleteOutline } from "react-icons/md";
+import styles from "../styles/LinkContainer.module.css";
+import click from "../assets/click.png"
 
 const LinkContainer = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,11 +24,12 @@ const LinkContainer = () => {
     useEffect(() => {
         const fetchLinks = async () => {
             try {
-                const data = await getLink(user.token);
-                setLink(data.data);
+                const newdata = await getLinkWithClicks(user.token);
+                // console.log("linkcontainer", newdata.data.links);
+                setLink(newdata.data.links);
                 // console.log("Link data:", link);
             } catch (error) {
-                toast.error('something went wrong', error)
+                toast.error("something went wrong", error);
             }
         };
         fetchLinks();
@@ -41,9 +44,9 @@ const LinkContainer = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setSelectedLink(prev => ({
+        setSelectedLink((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
     const handleSave = async () => {
@@ -52,12 +55,12 @@ const LinkContainer = () => {
             await updateLink(user.token, selectedLink._id, {
                 linkTitle: selectedLink.linkTitle,
                 linkUrl: selectedLink.linkUrl,
-                domain
+                domain,
             });
 
             // Refresh links after successful update
-            const freshData = await getLink(user.token);
-            setLink(freshData.data);
+            const freshData = await getLinkWithClicks(user.token);
+            setLink(freshData.data.links);
 
             setIsModalOpen(false);
             toast.success("Link updated successfully");
@@ -72,13 +75,13 @@ const LinkContainer = () => {
     const handleDelete = async (linkId) => {
         try {
             await deleteLink(user.token, linkId);
-            const freshData = await getLink(user.token);
-            setLink(freshData.data);
+            const freshData = await getLinkWithClicks(user.token);
+            setLink(freshData.data.links);
             toast.success("Link deleted successfully");
         } catch (error) {
             toast.error("Failed to delete link", error);
         }
-    }
+    };
 
     return (
         <div className={styles.linkContainer}>
@@ -87,9 +90,7 @@ const LinkContainer = () => {
                     localLink.map((linkItem) => (
                         <li key={linkItem._id} className={styles.linkItem}>
                             <div className={styles.linkContent}>
-                                <span className={styles.domain}>
-                                    {linkItem.domain}
-                                </span>
+                                <span className={styles.domain}>{linkItem.domain}</span>
                                 <div className={styles.urlContainer}>
                                     <a
                                         href={linkItem.linkUrl}
@@ -107,18 +108,25 @@ const LinkContainer = () => {
                                 </div>
                             </div>
                             <div className={styles.buttonGroup}>
-                                <button
-                                    className={`${styles.button} ${styles.editButton}`}
-                                    onClick={() => handleEdit(linkItem)}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    className={`${styles.button} ${styles.deleteButton}`}
-                                    onClick={() => handleDelete(linkItem._id)}
-                                >
-                                    Delete
-                                </button>
+                                <p>
+                                    <img src={click} alt='clickIcon' />
+                                    <span>{linkItem?.totalClicks || 0} clicks</span>
+                                </p>
+                                <div style={{ display: 'flex', gap: '1rem' }}>
+                                    <button
+                                        className={`${styles.button} ${styles.editButton}`}
+                                        onClick={() => handleEdit(linkItem)}
+                                    >
+                                        <CiEdit />
+                                    </button>
+                                    <button
+                                        className={`${styles.button} ${styles.deleteButton}`}
+                                        onClick={() => handleDelete(linkItem._id)}
+                                    >
+                                        <MdDeleteOutline />
+                                    </button>
+                                </div>
+
                             </div>
                         </li>
                     ))
@@ -153,10 +161,7 @@ const LinkContainer = () => {
                             </label>
                         </div>
                         <div className={styles.modalActions}>
-                            <button
-                                className={styles.saveButton}
-                                onClick={handleSave}
-                            >
+                            <button className={styles.saveButton} onClick={handleSave}>
                                 Save
                             </button>
                             <button
@@ -170,7 +175,7 @@ const LinkContainer = () => {
                 </div>
             )}
         </div>
-    )
-}
-// 
-export default LinkContainer
+    );
+};
+//
+export default LinkContainer;

@@ -89,3 +89,12 @@ export const createClick = async (linkData, linkId) => {
   const response = await axios.post(url, data);
   return response.data;
 };
+export const getLinkWithClicks = async (token) => {
+  const response = await axios.get(`${API_URL}/link/getlinkwithclicks`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data;
+};

@@ -14,7 +14,7 @@ const ProfileDetailsPage = () => {
         const fetchLinks = async () => {
             try {
                 const response = await getUserWithLinks(userid);
-                console.log(response)
+                // console.log(response)
                 setUser((prev) => ({
                     ...prev,
                     userName: response.userName,

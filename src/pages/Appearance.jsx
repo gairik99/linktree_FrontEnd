@@ -20,7 +20,7 @@ import { updateUserProfile } from "../services/action";
 const Appearance = () => {
     const { user, setUser } = useAuth();
     const { style, setStyle } = useStyle();
-    console.log(style);
+    // console.log(style);
     const themeArr = [
         { img: air1, title: "Air Snow", buttonColor: "#D9D9D9", theme: "#FFFFFF" },
         { img: air2, title: "Air Grey", buttonColor: "#FFFFFF", theme: "#EBEEF1" },
