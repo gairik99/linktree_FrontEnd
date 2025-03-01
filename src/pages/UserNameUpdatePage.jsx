@@ -63,7 +63,8 @@ const UserNameUpdatePage = () => {
                     userName: response.user.userName,
                     category: response.user.category
                 }));
-                navigate("/link");
+                if (user.token)
+                    navigate("/link");
             }
 
 

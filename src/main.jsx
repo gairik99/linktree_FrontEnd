@@ -5,21 +5,24 @@ import { ToastContainer } from 'react-toastify'
 import { AuthProvider } from './context/authContext.jsx'
 import { TabProvider } from './context/tabContext.jsx'
 import { LinkProvider } from './context/linkContext.jsx'
+import { StyleProvider } from './context/styleContext.jsx'
 import 'react-toastify/dist/ReactToastify.css'
 import './index.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <LinkProvider>
-      <TabProvider>
-        <AuthProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </AuthProvider>
-      </TabProvider>
-    </LinkProvider>
+    <StyleProvider>
+      <LinkProvider>
+        <TabProvider>
+          <AuthProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </AuthProvider>
+        </TabProvider>
+      </LinkProvider>
+    </StyleProvider>
     <ToastContainer />
   </StrictMode>,
 )

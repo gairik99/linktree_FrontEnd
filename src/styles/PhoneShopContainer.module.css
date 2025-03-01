@@ -15,7 +15,6 @@
   justify-content: center;
   margin-bottom: 1rem;
   border-radius: 25px;
-  box-shadow: 0 2px 4px rgba(109, 105, 105, 0.1);
   transition: transform 0.2s;
   width: 100%;
   min-height: 60px;
@@ -99,23 +98,25 @@
   gap: 1rem;
   width: 100%;
   align-items: stretch;
+  overflow-x: hidden;
   /* Add horizontal padding */
-  box-sizing: border-box;
 }
 
 .grid .linkItem {
   height: 160px;
   /* Essential for grid item containment */ /* Set minimum height for consistency */
-  overflow: hidden; /* Prevent content overflow */
-  box-sizing: border-box;
+  /* overflow: hidden; Prevent content overflow */
   position: relative;
+  width: 78%;
 }
 
 /* Add these child element constraints */
 .grid .content {
-  width: 100%;
-  height: 100%;
-  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 .grid .imageWrapper {
@@ -131,7 +132,6 @@
 }
 
 .grid .textContainer {
-  padding: 0 0.5rem;
   min-width: 0; /* Allow text container to shrink */
 }
 
@@ -144,7 +144,6 @@
 }
 
 .grid .button {
-  padding: 0.3rem 0.8rem;
   font-size: 0.6rem;
 }
 .carousel {
@@ -153,4 +152,18 @@
   scroll-snap-type: x mandatory;
   padding-bottom: 1rem;
   gap: 1rem; /* Space between carousel items */
+}
+.corousel .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.noLinks {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+  font-size: 0.8rem;
+  width: 100%;
 }

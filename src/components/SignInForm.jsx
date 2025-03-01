@@ -36,7 +36,25 @@ const SignInForm = () => {
             };
 
             const response = await loginUser(userData);
-            setUser(prev => ({ ...prev, token: response.token, userName: response.user.userName, imageurl: response.user.imageurl, name: response.user.firstName + ' ' + response.user.lastName, category: response.user.category }));
+            setUser((prev) => ({
+                ...prev,
+                token: response.token,
+                userName: response.user.userName,
+                email: response.user.email,
+                imageurl: response.user.imageurl,
+                name: response.user.firstName + " " + response.user.lastName,
+                category: response.user.category,
+                bannerBackground: response.user.bannerBackground,
+                bio: response.user.bio,
+                bannerColor: response.user.bannerColor,
+                buttonAlignment: response.user.buttonAlignment,
+                buttonStyle: response.user.buttonStyle,
+                buttonColor: response.user.buttonColor,
+                buttonFontColor: response.user.buttonFontColor,
+                theme: response.user.theme,
+                id: response.user._id
+
+            }));
             console.log(response);
 
             // Handle successful registration

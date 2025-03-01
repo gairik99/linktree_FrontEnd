@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-
+import { useAuth } from "../context/authContext"
 import NavBar from "../components/NavBar"
 import styles from "../styles/Home.module.css"
 import analytics1 from "../assets/analytics1.png"
@@ -16,15 +16,23 @@ import img7 from "../assets/AutoLayoutHorizontal6.png"
 import img8 from "../assets/AutoLayoutHorizontal7.png"
 import img9 from "../assets/AutoLayoutHorizontal8.png"
 import footerimage from "../assets/footerImg.png"
+import { useEffect } from "react"
 
 
 const Home = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { user } = useAuth();
+    useEffect(() => {
+        if (user.token)
+            navigate('/link')
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     const images = [
         img1, img2, img3,
         img4, img5, img6,
         img7, img8, img9
     ];
+    console.log(user.token)
     const arrFooter1 = [
         'About Spark', 'Careers', 'Terms and Conditions',
         'Blog', 'Getting Started', 'Privacy Policy',

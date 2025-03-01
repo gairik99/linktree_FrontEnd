@@ -73,7 +73,8 @@ const Link = () => {
             if (formData.userName) payload.userName = formData.userName;
             if (formData.bio) payload.bio = formData.bio;
             if (formData.bannerColor) payload.bannerColor = formData.bannerColor;
-            if (formData.bannerBackground) payload.bannerBackground = formData.bannerBackground;
+            if (formData.bannerBackground)
+                payload.bannerBackground = formData.bannerBackground;
             if (selectedImage) {
                 payload.imageurl = await uploadImage(selectedImage);
             }
@@ -81,15 +82,21 @@ const Link = () => {
             if (Object.keys(payload).length > 0) {
                 const response = await updateUserProfile(payload, user.token);
 
-                console.log('response', response);
-                if (response.status == 'ok') {
-                    toast.success('profile update successful')
-                    setUser(prev => ({ ...prev, userName: response.user.userName, bio: response.user.bio, bannerColor: response.user.bannerColor, bannerBackground: response.user.bannerBackground, imageurl: response.user.imageurl }))
+                console.log("response", response);
+                if (response.status == "ok") {
+                    toast.success("profile update successful");
+                    setUser((prev) => ({
+                        ...prev,
+                        userName: response.user.userName,
+                        bio: response.user.bio,
+                        bannerColor: response.user.bannerColor,
+                        bannerBackground: response.user.bannerBackground,
+                        imageurl: response.user.imageurl,
+                    }));
                 }
-
             }
         } catch (err) {
-            toast.error('Could not update profile', err)
+            toast.error("Could not update profile", err);
         }
     };
 
@@ -298,7 +305,7 @@ const Link = () => {
                     }}
                     onClick={handleFormSubmit}
                 >
-                    Save Changes
+                    Save
                 </button>
             </div>
 

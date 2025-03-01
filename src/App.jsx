@@ -8,6 +8,8 @@ import Link from './pages/Link'
 import Analytics from './pages/Analytics'
 import Appearance from './pages/Appearance'
 import Settings from './pages/Settings'
+import ProtectedRoute from './components/ProtectedRoute'
+import ProfileDetailsPage from './pages/ProfileDetailsPage'
 
 function App() {
 
@@ -16,12 +18,13 @@ function App() {
       <Routes>
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/signin' element={<SignInPage />} />
-        <Route path='/usernameupdate' element={<UserNameUpdatePage />} />
+        <Route path='/profile/:userid' element={<ProfileDetailsPage />} />
+        <Route path='/usernameupdate' element={<ProtectedRoute><UserNameUpdatePage /></ProtectedRoute>} />
         <Route path='/' element={<Home />} />
-        <Route path='/link' element={<Link />} />
-        <Route path='/analytics' element={<Analytics />} />
-        <Route path='/appearance' element={<Appearance />} />
-        <Route path='/settings' element={<Settings />} />
+        <Route path='/link' element={<ProtectedRoute><Link /></ProtectedRoute>} />
+        <Route path='/analytics' element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+        <Route path='/appearance' element={<ProtectedRoute><Appearance /></ProtectedRoute>} />
+        <Route path='/settings' element={<ProtectedRoute><Settings /></ProtectedRoute>} />
       </Routes>
     </>
   )
