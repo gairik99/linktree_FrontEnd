@@ -4,7 +4,6 @@ import SideBar from "../components/SideBar";
 import { useAuth } from "../context/authContext";
 import { validateUpdateForm } from "../utils/validateUpdateForm";
 import { updateUserProfile } from "../services/action";
-
 import styles from "../styles/Settings.module.css";
 
 const Settings = () => {

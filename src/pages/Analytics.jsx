@@ -1,13 +1,43 @@
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useAuth } from "../context/authContext";
 import SideBar from "../components/SideBar";
 import DatePicker from "react-datepicker";
 import { CiCalendar } from "react-icons/ci";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
-
+import { getClickByCategory } from "../services/action";
+import styles from '../styles/Analytics.module.css'
+import MonthlyClicks from "../components/MonthlyClicks";
 const Analytics = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [clickCategory, setClickCategory] = useState([]);
     const { user } = useAuth();
+    useEffect(() => {
+        const fetchLinks = async () => {
+            try {
+                const newdata = await getClickByCategory(user.token);
+                const orderedData = newdata.data.sort((a, b) => {
+                    const order = ['link', 'shop', 'cta'];
+                    const aIndex = order.indexOf(a.category);
+                    const bIndex = order.indexOf(b.category);
+
+                    // Handle categories not in our priority list
+                    if (aIndex === -1) return 1;
+                    if (bIndex === -1) return -1;
+
+                    return aIndex - bIndex;
+                });
+                // console.log(orderedData)
+                setClickCategory(() => orderedData);
+
+            } catch (error) {
+                toast.error("something went wrong", error);
+            }
+        };
+        fetchLinks();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div
             style={{
@@ -48,6 +78,27 @@ const Analytics = () => {
                             dateFormat="yyyy-MM-dd"
                         />
                     </div>
+                </div>
+                <div className={styles.categoryContainer}>
+                    {clickCategory?.length === 0 && (
+                        <div className={styles.categoryCard}>
+                            <span className={styles.categoryName}>No click data available</span>
+                        </div>
+                    )}
+
+                    {clickCategory?.map((item, index) => (
+                        <div key={index} className={styles.categoryCard} style={{ background: index === 0 ? '#22D679' : '' }}>
+                            <span className={styles.categoryName} style={{ color: index === 0 ? 'white' : '' }}>
+                                {item.category != 'cta' ? `Clicks on ${item.category}` : `${item.category.toUpperCase()}`}
+                            </span>
+                            <span className={styles.categoryCount} style={{ color: index === 0 ? 'white' : '', }}>
+                                {item.count}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+                <div style={{ padding: '1rem' }} >
+                    <MonthlyClicks />
                 </div>
             </div>
         </div>
