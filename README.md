@@ -1,8 +1,62 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#  A Linktree Application
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is a Linktree-inspired application built using React.js (vite) that allows users to create a personalized landing page with multiple links to their social media, websites, and other online resources.
+
+## 🛠 Features
+
+-   Userfriendly interface to manage and customize links.
+    
+-   Support for major social media and external website links.
+    
+-   Customizable themes and layouts.
+    
+-   Responsive design for seamless mobile and desktop experience.
+    
+-   Analytics tracking for link clicks.
+    
+
+## Tech Stack
+
+-   **Frontend:** React.js
+    
+-   **Backend (Optional):** Node.js, Express.js
+    
+-   **Database:** MongoDB
+    
+
+##  Project Structure
+
+```
+SPARK/
+│── public/
+│── src/
+│   │── components/
+│   │── pages/
+│   ├── App.js
+│   ├── index.js
+│── .gitignore
+│── package.json
+│── README.md
+```
+
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+-   Node.js (>=18.x)
+    
+-   npm or yarn
+    
+### Running the Project
+
+```
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
