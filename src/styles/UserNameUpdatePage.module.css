@@ -23,7 +23,6 @@
 }
 
 .logoText {
-  font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-size: 1.2rem;
   color: #2d3436;
@@ -36,7 +35,6 @@
 }
 
 .heading {
-  font-family: "Poppins", sans-serif;
   align-self: flex-start;
   /* Add any other heading styles you want */
 }

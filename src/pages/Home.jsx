@@ -32,7 +32,7 @@ const Home = () => {
         img4, img5, img6,
         img7, img8, img9
     ];
-    console.log(user.token)
+    // console.log(user.token)
     const arrFooter1 = [
         'About Spark', 'Careers', 'Terms and Conditions',
         'Blog', 'Getting Started', 'Privacy Policy',

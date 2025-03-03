@@ -10,12 +10,14 @@ const ProfileDetailsPage = () => {
     const { userid } = useParams();
     const { setUser } = useAuth();
     const { setLink } = useLink();
+
     useEffect(() => {
         const fetchLinks = async () => {
             try {
                 const response = await getUserWithLinks(userid);
-                // console.log(response)
-                setUser((prev) => ({
+
+                // Update user context
+                setUser(prev => ({
                     ...prev,
                     userName: response.userName,
                     imageurl: response.imageurl,
@@ -28,15 +30,18 @@ const ProfileDetailsPage = () => {
                     theme: response.theme,
                     id: response._id
                 }));
-                setLink(response.links)
-                // console.log("Link data:", link);
+
+                // Update link context
+                setLink(response.links || []);
             } catch (error) {
-                toast.error('something went wrong', error)
+                toast.error(error.message || "Failed to load profile");
             }
         };
+
         fetchLinks();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [userid, setUser, setLink]);
+    console.log("ProfileDetailsPage rendered");
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#8ecae6' }}>
             <span style={{ color: '#edede9', fontSize: '1rem' }}>My profile</span>
