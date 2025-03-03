@@ -44,7 +44,6 @@ const ProfileDetailsPage = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#8ecae6' }}>
-            <span style={{ color: '#edede9', fontSize: '1rem' }}>My profile</span>
             <PhoneView />
         </div>
     )
