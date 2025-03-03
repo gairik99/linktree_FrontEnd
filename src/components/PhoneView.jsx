@@ -15,7 +15,7 @@ const PhoneView = () => {
     const { style } = useStyle();
     const { activeTab } = useTab();
     // console.log(user);
-    console.log("PhoneView rendered");
+    // console.log("PhoneView rendered");
 
     let background = style.theme || user.theme;
 

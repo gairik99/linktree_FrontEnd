@@ -118,3 +118,32 @@ export const getClickByMonth = async (token) => {
   });
   return response.data;
 };
+
+export const getClickByOs = async (token) => {
+  const response = await axios.get(`${API_URL}/click/getclickbyos`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data;
+};
+
+export const getClickByDomain = async (token) => {
+  const response = await axios.get(`${API_URL}/click/getclickbydomain`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data;
+};
+export const getTopLink = async (token) => {
+  const response = await axios.get(`${API_URL}/link//gettoplink`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data;
+};

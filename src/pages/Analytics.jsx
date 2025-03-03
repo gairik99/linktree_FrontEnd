@@ -8,6 +8,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import { getClickByCategory } from "../services/action";
 import styles from '../styles/Analytics.module.css'
 import MonthlyClicks from "../components/MonthlyClicks";
+import GetClickByos from "../components/GetClickByos";
+import GetClickByDomain from "../components/GetClickByDomain";
+import GetLinkWithmaxClick from "../components/GetLinkWithmaxClick";
+
+
 const Analytics = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [clickCategory, setClickCategory] = useState([]);
@@ -99,6 +104,17 @@ const Analytics = () => {
                 </div>
                 <div style={{ padding: '1rem' }} >
                     <MonthlyClicks />
+                </div>
+                <div style={{ display: 'flex', padding: '1rem', gap: '1rem' }}>
+                    <div style={{ flex: 1, minHeight: 400 }}>
+                        <GetClickByos />
+                    </div>
+                    <div style={{ flex: 1, minHeight: 400, marginTop: '1.4rem' }}>
+                        <GetClickByDomain />
+                    </div>
+                </div>
+                <div style={{ padding: '1rem' }} >
+                    <GetLinkWithmaxClick />
                 </div>
             </div>
         </div>

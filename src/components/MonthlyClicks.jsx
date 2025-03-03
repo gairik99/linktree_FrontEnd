@@ -41,17 +41,14 @@ const MonthlyClicks = () => {
 
     return (
         <div style={{ width: '100%', backgroundColor: 'white', borderRadius: '12px', padding: '1rem' }}>
-            <h5>Monthly Clicks Overview</h5>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <LineChart
                     xAxis={[{
                         data: sortedData.map(item => monthNames[item.month]), // Extract correctly
                         scaleType: 'band',
-                        label: 'Months'
                     }]}
                     series={[{
                         data: sortedData.map(item => item.totalClicks),
-                        label: 'Total Clicks',
                         showMark: true,
                         color: '#22D679'
                     }]}

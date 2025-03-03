@@ -40,7 +40,7 @@ const ProfileDetailsPage = () => {
 
         fetchLinks();
     }, [userid, setUser, setLink]);
-    console.log("ProfileDetailsPage rendered");
+    // console.log("ProfileDetailsPage rendered");
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#8ecae6' }}>

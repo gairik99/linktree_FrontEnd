@@ -3,10 +3,10 @@ import { createClick } from "../services/action";
 import { toast } from "react-toastify";
 const GetConnectButton = () => {
     const { user } = useAuth();
-    console.log(user)
+    // console.log(user)
     const handleCtaClick = async () => {
         try {
-            console.log("cta");
+            // console.log("cta");
             const response = await createClick({
                 id: user.id,
                 category: "cta",
