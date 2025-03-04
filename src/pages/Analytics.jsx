@@ -6,23 +6,34 @@ import DatePicker from "react-datepicker";
 import { CiCalendar } from "react-icons/ci";
 import "react-datepicker/dist/react-datepicker.css";
 import { getClickByCategory } from "../services/action";
-import styles from '../styles/Analytics.module.css'
+import styles from "../styles/Analytics.module.css";
 import MonthlyClicks from "../components/MonthlyClicks";
 import GetClickByos from "../components/GetClickByos";
 import GetClickByDomain from "../components/GetClickByDomain";
 import GetLinkWithmaxClick from "../components/GetLinkWithmaxClick";
-
-
+import MobileLogout from "../components/MobileLogout";
+import MobileNavBar from "../components/MobileNavBar";
 const Analytics = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [clickCategory, setClickCategory] = useState([]);
     const { user } = useAuth();
+
+    const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsHidden(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
     useEffect(() => {
         const fetchLinks = async () => {
             try {
                 const newdata = await getClickByCategory(user.token);
                 const orderedData = newdata.data.sort((a, b) => {
-                    const order = ['link', 'shop', 'cta'];
+                    const order = ["link", "shop", "cta"];
                     const aIndex = order.indexOf(a.category);
                     const bIndex = order.indexOf(b.category);
 
@@ -34,7 +45,6 @@ const Analytics = () => {
                 });
                 // console.log(orderedData)
                 setClickCategory(() => orderedData);
-
             } catch (error) {
                 toast.error("something went wrong", error);
             }
@@ -50,12 +60,13 @@ const Analytics = () => {
                 overflow: "auto",
                 position: "realtive",
                 paddingBottom: "1rem",
-                background: " #F1F6FA"
+                background: " #F1F6FA",
             }}
         >
-            <SideBar />
-            <div style={{ display: "flex", flexDirection: "column", width: '80vw' }}>
-                <div
+            {!isHidden && <SideBar />}
+            <div style={{ display: "flex", flexDirection: "column", width: isHidden ? '98vw' : "80vw", marginBottom: isHidden ? '5rem' : '' }}>
+                {isHidden && <MobileLogout />}
+                {!isHidden && <div
                     style={{ display: "flex", flexDirection: "column", padding: "1rem" }}
                 >
                     <p>
@@ -63,7 +74,7 @@ const Analytics = () => {
                         {user.name}!
                     </p>
                     <span>Congratulations. You got a great response today.</span>
-                </div>
+                </div>}
                 <div
                     style={{
                         display: "flex",
@@ -72,9 +83,16 @@ const Analytics = () => {
                         gap: "1rem",
                     }}
                 >
-                    <h4 style={{ padding: "1rem", marginTop: '1.2rem' }}>Overview</h4>
-                    <div style={{ display: 'flex', margin: '0px', borderRadius: '10px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', margin: '1rem' }}>
+                    <h4 style={{ padding: "1rem", marginTop: "1.2rem" }}>Overview</h4>
+                    <div style={{ display: "flex", margin: isHidden ? 'auto' : "0px", borderRadius: "10px" }}>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "flex-end",
+                                margin: "1rem",
+                            }}
+                        >
                             <CiCalendar />
                         </div>
                         <DatePicker
@@ -84,39 +102,58 @@ const Analytics = () => {
                         />
                     </div>
                 </div>
-                <div className={styles.categoryContainer}>
+                <div className={styles.categoryContainer} style={{ gridTemplateColumns: isHidden ? 'repeat(3,80vw)' : '', overflowX: isHidden ? 'scroll' : '', }}>
                     {clickCategory?.length === 0 && (
                         <div className={styles.categoryCard}>
-                            <span className={styles.categoryName}>No click data available</span>
+                            <span className={styles.categoryName}>
+                                No click data available
+                            </span>
                         </div>
                     )}
 
                     {clickCategory?.map((item, index) => (
-                        <div key={index} className={styles.categoryCard} style={{ background: index === 0 ? '#22D679' : '' }}>
-                            <span className={styles.categoryName} style={{ color: index === 0 ? 'white' : '' }}>
-                                {item.category != 'cta' ? `Clicks on ${item.category}` : `${item.category.toUpperCase()}`}
+                        <div
+                            key={index}
+                            className={styles.categoryCard}
+                            style={{ background: index === 0 ? "#22D679" : "" }}
+                        >
+                            <span
+                                className={styles.categoryName}
+                                style={{ color: index === 0 ? "white" : "" }}
+                            >
+                                {item.category != "cta"
+                                    ? `Clicks on ${item.category}`
+                                    : `${item.category.toUpperCase()}`}
                             </span>
-                            <span className={styles.categoryCount} style={{ color: index === 0 ? 'white' : '', }}>
+                            <span
+                                className={styles.categoryCount}
+                                style={{ color: index === 0 ? "white" : "" }}
+                            >
                                 {item.count}
                             </span>
                         </div>
                     ))}
                 </div>
-                <div style={{ padding: '1rem' }} >
+                <div style={{ padding: "1rem" }}>
                     <MonthlyClicks />
                 </div>
-                <div style={{ display: 'flex', padding: '1rem', gap: '1rem' }}>
+                <div style={{ display: "flex", padding: "1rem", gap: "1rem", flexDirection: isHidden ? 'column' : '' }}>
                     <div style={{ flex: 1, minHeight: 400 }}>
                         <GetClickByos />
                     </div>
-                    <div style={{ flex: 1, minHeight: 400, marginTop: '1.4rem' }}>
+                    <div style={{ flex: 1, minHeight: 400, marginTop: "1.4rem" }}>
                         <GetClickByDomain />
                     </div>
                 </div>
-                <div style={{ padding: '1rem' }} >
+                <div style={{ padding: isHidden ? "0rem" : "1rem", marginRight: isHidden ? '1.8rem' : '' }}>
                     <GetLinkWithmaxClick />
                 </div>
             </div>
+            {isHidden && (
+                <div style={{ width: "90%" }}>
+                    <MobileNavBar />
+                </div>
+            )}
         </div>
     );
 };

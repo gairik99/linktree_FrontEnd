@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import SideBar from "../components/SideBar";
 import PhoneView from "../components/PhoneView";
 import { useAuth } from "../context/authContext";
@@ -16,10 +17,24 @@ import mineral2 from "../assets/mineral2.png";
 import mineral3 from "../assets/mineral3.png";
 import mineral4 from "../assets/mineral4.png";
 import { updateUserProfile } from "../services/action";
+import { IoEyeOutline } from "react-icons/io5";
+import MobileNavBar from "../components/MobileNavBar";
+import MobileLogout from "../components/MobileLogout";
 
 const Appearance = () => {
     const { user, setUser } = useAuth();
     const { style, setStyle } = useStyle();
+    const [prevwiewModal, setPreviewModal] = useState(false);
+    const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsHidden(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
     // console.log(style);
     const themeArr = [
         { img: air1, title: "Air Snow", buttonColor: "#D9D9D9", theme: "#FFFFFF" },
@@ -83,27 +98,35 @@ const Appearance = () => {
     };
     return (
         <div style={{ display: "flex", background: " #F1F6FA", overflow: "auto" }}>
-            <SideBar />
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1rem",
-                    marginLeft: "4vw",
-                    height: "855px",
-                }}
-            >
+            {!isHidden && <SideBar />}
+            {!isHidden && (
                 <div
-                    style={{ display: "flex", flexDirection: "column", padding: "1rem" }}
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1rem",
+                        marginLeft: "4vw",
+                        height: "855px",
+                    }}
                 >
-                    <p>
-                        <span style={{ fontWeight: "bold", fontSize: "1.5rem" }}>Hi,</span>{" "}
-                        {user.name}!
-                    </p>
-                    <span>Congratulations. You got a great response today.</span>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            padding: "1rem",
+                        }}
+                    >
+                        <p>
+                            <span style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+                                Hi,
+                            </span>{" "}
+                            {user.name}!
+                        </p>
+                        <span>Congratulations. You got a great response today.</span>
+                    </div>
+                    <PhoneView />
                 </div>
-                <PhoneView />
-            </div>
+            )}
             <div
                 style={{
                     display: "flex",
@@ -114,8 +137,12 @@ const Appearance = () => {
                     marginBottom: "10vh",
                 }}
             >
+                {isHidden && <MobileLogout />}
                 <h3 style={{ marginTop: "8vh" }}>Layout</h3>
-                <div className={styles.container}>
+                <div
+                    className={styles.container}
+                    style={{ width: isHidden ? "400px" : "" }}
+                >
                     <div
                         className={styles.box}
                         onClick={() =>
@@ -173,19 +200,31 @@ const Appearance = () => {
                             <button
                                 className={`${styles.button} ${styles.button1}`}
                                 onClick={() =>
-                                    setStyle((prev) => ({ ...prev, buttonStyle: "button1", buttonColor: '#000000' }))
+                                    setStyle((prev) => ({
+                                        ...prev,
+                                        buttonStyle: "button1",
+                                        buttonColor: "#000000",
+                                    }))
                                 }
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button2}`}
                                 onClick={() =>
-                                    setStyle((prev) => ({ ...prev, buttonStyle: "button2", buttonColor: '#000000' }))
+                                    setStyle((prev) => ({
+                                        ...prev,
+                                        buttonStyle: "button2",
+                                        buttonColor: "#000000",
+                                    }))
                                 }
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button3}`}
                                 onClick={() =>
-                                    setStyle((prev) => ({ ...prev, buttonStyle: "button3", buttonColor: '#000000' }))
+                                    setStyle((prev) => ({
+                                        ...prev,
+                                        buttonStyle: "button3",
+                                        buttonColor: "#000000",
+                                    }))
                                 }
                             ></button>
                         </div>
@@ -463,6 +502,7 @@ const Appearance = () => {
                         <div
                             key={index}
                             className={styles.themeItem}
+                            style={{ marginBlock: isHidden ? "2rem" : "" }}
                             onClick={() =>
                                 setStyle((prev) => ({
                                     ...prev,
@@ -475,6 +515,7 @@ const Appearance = () => {
                                 src={theme.img}
                                 alt={theme.title}
                                 className={styles.themeImage}
+                                style={{ marginBlock: isHidden ? "0.5rem" : "" }}
                             />
                             <p className={styles.themeTitle}>{theme.title}</p>
                         </div>
@@ -483,8 +524,9 @@ const Appearance = () => {
                 <button
                     style={{
                         position: "absolute",
-                        bottom: "-60px",
-                        right: "20px",
+                        bottom: isHidden ? "-150px" : "-80px",
+                        right: isHidden ? "" : "20px",
+                        left: isHidden ? '1px' : '',
                         backgroundColor: "#4CAF50", // Green color
                         color: "white",
                         padding: "10px 20px",
@@ -500,6 +542,44 @@ const Appearance = () => {
                     Save
                 </button>
             </div>
+            {isHidden && (
+                <div
+                    style={{
+                        display: "flex",
+                        background: "white",
+                        position: "fixed",
+                        bottom: "120px",
+                        left: "38%",
+                        width: "100px",
+                        height: "25px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        padding: "0.8rem",
+                        borderRadius: "5px",
+                        gap: "0.5rem",
+                        zIndex: "10",
+                    }}
+                    onClick={() => setPreviewModal(true)}
+                >
+                    <IoEyeOutline />
+                    <span>preview</span>
+                </div>
+            )}
+            {isHidden && (
+                <div style={{ width: "90%" }}>
+                    <MobileNavBar />
+                </div>
+            )}
+            {isHidden && prevwiewModal && (
+                <div
+                    className={styles.modalOverlay}
+                    onClick={() => setPreviewModal(false)}
+                >
+                    <div style={{ width: "361px", height: "743" }}>
+                        <PhoneView />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

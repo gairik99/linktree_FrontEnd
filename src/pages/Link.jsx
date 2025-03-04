@@ -11,8 +11,24 @@ import TabComponent from "../components/TabComponent";
 import Modal from "../components/Modal";
 import LinkContainer from "../components/LinkContainer";
 import icon from "../assets/Group.png";
+import MobileNavBar from "../components/MobileNavBar";
+import { IoEyeOutline } from "react-icons/io5";
+import MobileLogout from "../components/MobileLogout";
 
 const Link = () => {
+    const [prevwiewModal, setPreviewModal] = useState(false);
+    const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsHidden(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    // console.log(isHidden);
     const colorOptions = [
         { id: 1, color: "#FFFFFF", background: "#000000" },
         { id: 2, color: "#FFFFFF", background: "#342b26" },
@@ -101,28 +117,44 @@ const Link = () => {
     };
 
     return (
-        <div style={{ display: "flex", background: " #F1F6FA", overflow: "auto" }}>
-            <SideBar />
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1rem",
-                    marginLeft: "4vw",
-                    height: "855px",
-                }}
-            >
+        <div
+            style={{
+                display: "flex",
+                background: " #F1F6FA",
+                overflow: "auto",
+                position: "relative",
+            }}
+        >
+            {!isHidden && <SideBar />}
+            {!isHidden && (
                 <div
-                    style={{ display: "flex", flexDirection: "column", padding: "1rem" }}
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1rem",
+                        marginLeft: "4vw",
+                        height: "855px",
+                    }}
                 >
-                    <p>
-                        <span style={{ fontWeight: "bold", fontSize: "1.5rem" }}>Hi,</span>{" "}
-                        {user.name}!
-                    </p>
-                    <span>Congratulations. You got a great response today.</span>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            padding: "1rem",
+                        }}
+                    >
+                        <p>
+                            <span style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+                                Hi,
+                            </span>{" "}
+                            {user.name}!
+                        </p>
+                        <span>Congratulations. You got a great response today.</span>
+                    </div>
+                    <PhoneView />
                 </div>
-                <PhoneView />
-            </div>
+            )}
+
             <div
                 style={{
                     display: "flex",
@@ -131,10 +163,18 @@ const Link = () => {
                     marginLeft: "4vw",
                     position: "relative",
                     marginBottom: "6vh",
+                    width: isHidden ? "100%" : "",
                 }}
             >
+
+                {
+                    isHidden && <MobileLogout />
+                }
                 <h3 style={{ marginTop: "8vh" }}>Profile</h3>
-                <div className={styles.profileContainer}>
+                <div
+                    className={styles.profileContainer}
+                    style={{ width: isHidden ? "100%" : "" }}
+                >
                     <div style={{ display: "flex", gap: "1rem", width: "100%" }}>
                         <div className={styles.imageContainer}>
                             <img
@@ -191,10 +231,14 @@ const Link = () => {
                 </div>
                 <div
                     className={styles.profileContainer}
-                    style={{ marginBottom: "1rem" }}
+                    style={{
+                        marginBottom: "1rem",
+                        width: isHidden ? "95%" : "",
+                        marginRight: isHidden ? "1rem" : "",
+                    }}
                 >
                     {/* Replace ToggleButton with your actual toggle component */}
-                    <div style={{ width: "16vw" }}>
+                    <div style={{ width: isHidden ? "100px" : "16vw" }}>
                         <TabComponent logo={true} />
                     </div>
 
@@ -207,7 +251,10 @@ const Link = () => {
                     <LinkContainer />
                 </div>
                 <h3 style={{ marginTop: "2vh" }}>Banner</h3>
-                <div className={styles.userCard}>
+                <div
+                    className={styles.userCard}
+                    style={{ marginRight: isHidden ? "1.5rem" : "" }}
+                >
                     <div
                         className={styles.cardContent}
                         style={{
@@ -291,8 +338,9 @@ const Link = () => {
                 <button
                     style={{
                         position: "absolute",
-                        bottom: "-30px",
-                        right: "20px",
+                        bottom: isHidden ? "-150px" : "-80px",
+                        right: isHidden ? "" : "20px",
+                        left: isHidden ? '1px' : '',
                         backgroundColor: "#4CAF50", // Green color
                         color: "white",
                         padding: "10px 20px",
@@ -308,8 +356,41 @@ const Link = () => {
                     Save
                 </button>
             </div>
-
+            {isHidden && (
+                <div
+                    style={{
+                        display: 'flex',
+                        background: 'white',
+                        position: "fixed",
+                        bottom: "120px",
+                        left: "38%",
+                        width: "100px",
+                        height: "25px",
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '0.8rem',
+                        borderRadius: '5px',
+                        gap: '0.5rem',
+                        zIndex: '10'
+                    }}
+                    onClick={() => setPreviewModal(true)}
+                >
+                    <IoEyeOutline />
+                    <span>preview</span>
+                </div>
+            )}
+            {isHidden && (
+                <div style={{ width: "90%" }}>
+                    <MobileNavBar />
+                </div>
+            )}
             {isModalOpen && <Modal onClose={() => setIsModalOpen(false)} />}
+
+            {isHidden && prevwiewModal && (
+                <div className={styles.modalOverlay} onClick={() => setPreviewModal(false)} >
+                    <div style={{ width: '361px', height: '743' }}><PhoneView /></div>
+                </div>
+            )}
         </div>
     );
 };

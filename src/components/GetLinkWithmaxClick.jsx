@@ -20,7 +20,7 @@ const GetLinkWithmaxClick = () => {
         fetchLinks();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    console.log(topLink);
+    // console.log(topLink);
     const greenShades = [
         "#2e7d32", // Dark green
         "#388e3c",
