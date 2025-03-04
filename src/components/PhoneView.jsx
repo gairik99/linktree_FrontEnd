@@ -42,14 +42,14 @@ const PhoneView = () => {
                 border: "15px solid black",
                 borderRadius: "25px",
                 position: "relative",
-                background: background || '#e2dada94',
+                background: background || 'rgb(242 236 236)',
             }}
         >
             <div
                 style={{
                     width: "100%",
                     height: "30%",
-                    background: user.bannerBackground || "rgb(226, 218, 218)",
+                    background: user.bannerBackground || "#342B26",
                     borderBottomRightRadius: "25px",
                     borderBottomLeftRadius: "25px",
                     display: "flex",
