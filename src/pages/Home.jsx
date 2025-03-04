@@ -162,7 +162,7 @@ const Home = () => {
                     </div>
                 ))}
             </div>
-            <div style={{ display: 'flex', height: isHidden ? '780px' : '35vh', width: '95%', margin: 'auto', marginTop: '6vh', background: 'white', flexDirection: isHidden ? 'column' : '' }}>
+            <div style={{ display: 'flex', height: isHidden ? '820px' : '35vh', width: '95%', margin: 'auto', marginTop: '6vh', background: 'white', flexDirection: isHidden ? 'column' : '' }}>
                 {!isHidden && <div style={{ display: 'flex', margin: '2rem' }}>
                     <button style={{ background: '#D3D3D3', marginRight: '1vw', height: '6vh', width: '4vw', border: 'none', borderRadius: '10px' }} onClick={() => navigate('/signin')} >Log in</button>
                     <button className={styles.button1} style={{ height: '6vh', width: '6vw' }} onClick={() => navigate('/signup')}>Sign up</button>
@@ -174,8 +174,8 @@ const Home = () => {
                 </div>
                 {
                     isHidden && <div style={{ display: 'flex', margin: '2rem' }}>
-                        <button style={{ background: '#D3D3D3', marginRight: '1vw', height: '6vh', width: '16vw', border: 'none', borderRadius: '10px' }} onClick={() => navigate('/signin')} >Log in</button>
-                        <button className={styles.button1} style={{ height: '6vh', width: '16vw' }} onClick={() => navigate('/signup')}>Sign up</button>
+                        <button style={{ background: '#D3D3D3', marginRight: '1vw', height: '8vh', width: '20vw', border: 'none', borderRadius: '10px' }} onClick={() => navigate('/signin')} >Log in</button>
+                        <button className={styles.button1} style={{ height: '8vh', width: '20vw' }} onClick={() => navigate('/signup')}>Sign up</button>
                     </div>
                 }
             </div>
@@ -188,7 +188,7 @@ const Home = () => {
                 </div>
             </div>}
             {isHidden && <div style={{ height: '40px' }}>
-                <img src={footerimage} style={{ height: '30px', width: '200px', margin: '1rem' }} />
+                <img src={footerimage} style={{ height: '30px', width: '200px', margin: '3rem' }} />
             </div>}
 
         </div >

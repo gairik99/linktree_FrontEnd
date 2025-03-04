@@ -11,7 +11,7 @@ const TabComponent = ({ logo }) => {
         <div
             style={{
                 display: "flex",
-                width: "84%",
+                width: "200px",
                 backgroundColor: "grey",
                 borderRadius: "20px",
                 marginTop: "1rem",
@@ -43,10 +43,10 @@ const TabComponent = ({ logo }) => {
                     {logo ? (
                         <span>
                             <img src={shop} style={{ width: "15px", height: "15px" }} />
-                            Add Link
+                            <span>Add Link </span>
                         </span>
                     ) : (
-                        "Link"
+                        <span>Link</span>
                     )}
                 </span>
             </button>
@@ -83,10 +83,10 @@ const TabComponent = ({ logo }) => {
                                 alt="shop logo"
                                 style={{ width: "15px", height: "15px" }}
                             />
-                            Add Shop
+                            <span>Add Shop</span>
                         </span>
                     ) : (
-                        "Shop"
+                        <span>Shop</span>
                     )}
                 </span>
             </button>

@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import SideBar from "../components/SideBar";
 import { useAuth } from "../context/authContext";
 import { validateUpdateForm } from "../utils/validateUpdateForm";
 import { updateUserProfile } from "../services/action";
 import styles from "../styles/Settings.module.css";
-
+import MobileLogout from "../components/MobileLogout";
+import MobileNavBar from "../components/MobileNavBar";
 const Settings = () => {
+    const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsHidden(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const { user, setUser } = useAuth();
     const [formData, setFormData] = useState({
         firstName: user?.name.split(" ")[0] || "",
@@ -51,12 +63,12 @@ const Settings = () => {
                 background: " #F1F6FA",
                 overflow: "auto",
                 position: "realtive",
-                paddingBottom: "1rem",
+                paddingBottom: isHidden ? '' : "1rem",
             }}
         >
-            <SideBar />
-            <div style={{ display: "flex", flexDirection: "column" }}>
-                <div
+            {!isHidden && <SideBar />}
+            <div style={{ display: "flex", flexDirection: "column", width: isHidden ? '100%' : '' }}>
+                {!isHidden && <div
                     style={{ display: "flex", flexDirection: "column", padding: "1rem" }}
                 >
                     <p>
@@ -64,7 +76,7 @@ const Settings = () => {
                         {user.name}!
                     </p>
                     <span>Congratulations. You got a great response today.</span>
-                </div>
+                </div>}
                 <div
                     style={{
                         display: "flex",
@@ -72,12 +84,15 @@ const Settings = () => {
                         gap: "1rem",
                         marginLeft: "1vw",
                         position: "relative",
-                        marginBottom: "10vh",
+                        marginBottom: isHidden ? '' : "10vh",
                         background: "white",
                         borderRadius: "8px",
+                        width: isHidden ? '100vw' : ''
                     }}
                 >
-                    <form className={styles.formContainer}>
+
+                    {isHidden && <MobileLogout />}
+                    <form className={styles.formContainer} style={{ width: isHidden ? '100vw' : '' }}>
                         <div className={styles.heading}>
                             <span className={styles.headingText}>Profile</span>
                             <hr />
@@ -164,12 +179,18 @@ const Settings = () => {
                             type="button"
                             className={styles.submitButton}
                             onClick={handleSubmit}
+                            style={{ left: isHidden ? '6px' : '', right: !isHidden ? '6px' : '' }}
                         >
                             Save
                         </button>
                     </form>
                 </div>
             </div>
+            {isHidden && (
+                <div style={{ width: "90%" }}>
+                    <MobileNavBar />
+                </div>
+            )}
         </div>
     );
 };

@@ -145,3 +145,37 @@
 .userTitle {
   font-size: 0.9rem;
 }
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoImage {
+  width: 30px; /* Adjust based on your logo size */
+  height: 30px;
+}
+
+.logoText {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #2d3436;
+}
+
+.logoText sup {
+  font-size: 0.6em;
+  vertical-align: super;
+  margin-left: 2px;
+}
