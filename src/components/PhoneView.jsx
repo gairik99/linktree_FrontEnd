@@ -49,7 +49,7 @@ const PhoneView = () => {
                 style={{
                     width: "100%",
                     height: "30%",
-                    background: user.bannerBackground || "#342B26",
+                    background: user.bannerBackground || "rgb(226, 218, 218)",
                     borderBottomRightRadius: "25px",
                     borderBottomLeftRadius: "25px",
                     display: "flex",
