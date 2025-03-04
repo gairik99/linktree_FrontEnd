@@ -42,7 +42,7 @@ const PhoneView = () => {
                 border: "15px solid black",
                 borderRadius: "25px",
                 position: "relative",
-                background: background || 'grey',
+                background: background || '#e2dada94',
             }}
         >
             <div
