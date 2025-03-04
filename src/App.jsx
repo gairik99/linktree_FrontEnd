@@ -10,6 +10,7 @@ import Appearance from './pages/Appearance'
 import Settings from './pages/Settings'
 import ProtectedRoute from './components/ProtectedRoute'
 import ProfileDetailsPage from './pages/ProfileDetailsPage'
+import PasswordResetFlow from './pages/PasswordResetFlow'
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/analytics' element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
         <Route path='/appearance' element={<ProtectedRoute><Appearance /></ProtectedRoute>} />
         <Route path='/settings' element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+        <Route path='/forgotpassword' element={<PasswordResetFlow />} />
       </Routes>
     </>
   )

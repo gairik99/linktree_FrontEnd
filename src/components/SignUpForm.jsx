@@ -6,7 +6,8 @@ import styles from "../styles/SignUpform.module.css";
 import { validateForm } from "../utils/validateSignUpForm";
 import { registerUser } from "../services/action";
 
-const SignUpForm = () => {
+// eslint-disable-next-line react/prop-types
+const SignUpForm = ({ hidden }) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         firstName: "",
@@ -88,15 +89,15 @@ const SignUpForm = () => {
         }
     };
     return (
-        <div className={styles.container}>
-            <div className={styles.logoContainer}>
+        <div className={styles.container} style={{ width: hidden ? '100vw' : '', gap: hidden ? '0.5vh' : '' }}>
+            <div className={styles.logoContainer} style={{ marginBottom: hidden ? '1rem' : '' }}>
                 <img src={logo} alt="Logo" className={styles.logoImage} />
                 <span className={styles.logoText}>
                     SPARK<sup>™</sup>
                 </span>
             </div>
             <h1 className={styles.heading}>Sign up to your Spark</h1>
-            <form className={styles.form}>
+            <form className={styles.form} style={{ width: hidden ? '90vw' : '' }}>
                 <div className={styles.authHeader}>
                     <h3>Create an account</h3>
                     <p

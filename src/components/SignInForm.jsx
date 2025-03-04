@@ -7,7 +7,8 @@ import { useAuth } from "../context/authContext";
 import logo from "../assets/Group.png";
 import styles from "../styles/SignUpform.module.css";
 
-const SignInForm = () => {
+// eslint-disable-next-line react/prop-types
+const SignInForm = ({ hidden }) => {
     const navigate = useNavigate();
     const { setUser } = useAuth();
     const [formData, setFormData] = useState({
@@ -78,7 +79,7 @@ const SignInForm = () => {
     };
 
     return (
-        <div className={styles.container} style={{ justifyContent: "start" }}>
+        <div className={styles.container} style={{ justifyContent: "start", width: hidden ? '100vw' : '' }}>
             <div className={styles.logoContainer}>
                 <img src={logo} alt="Logo" className={styles.logoImage} />
                 <span className={styles.logoText}>
@@ -87,7 +88,7 @@ const SignInForm = () => {
             </div>
             <form
                 className={styles.form}
-                style={{ alignItems: "start", marginTop: "15vh" }}
+                style={{ alignItems: "start", marginTop: "15vh", width: hidden ? '90vw' : '' }}
             >
                 <h1 className={styles.heading} style={{ margin: "1vh" }}>
                     Sign up to your Spark
@@ -129,6 +130,7 @@ const SignInForm = () => {
                     color: "#28A263",
                     padding: "4vh 0",
                 }}
+                onClick={() => navigate('/forgotpassword')}
             >
                 Forgot password?
             </span>

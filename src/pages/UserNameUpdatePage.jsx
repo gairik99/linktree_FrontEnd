@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/authContext";
@@ -77,6 +77,16 @@ const UserNameUpdatePage = () => {
             setLoading(false);
         }
     };
+
+    const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
+    useEffect(() => {
+        const handleResize = () => {
+            setIsHidden(window.innerWidth <= 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
     return (
         <div style={{ display: "flex", overflow: "hidden" }}>
             <div className={styles.container}>
@@ -93,7 +103,7 @@ const UserNameUpdatePage = () => {
                 <input type="text" placeholder="Tell us your username" value={formData.userName}
                     onChange={handleUsernameChange} />
                 <span style={{ marginTop: '5vh' }}>Select one category that best describes your Linktree:</span>
-                <div className={styles.buttonsContainer}>
+                <div className={styles.buttonsContainer} style={{ gridTemplateColumns: 'repeat(3,1fr)' }}>
                     {buttonArr.map((button) => (
                         <button
                             key={button.id}
@@ -108,13 +118,13 @@ const UserNameUpdatePage = () => {
                 </div>
                 <button className={styles.submitButton} onClick={handleSubmit} disabled={loading}>{loading ? 'wait' : 'Continue'}</button>
             </div>
-            <div style={{ height: "100vh", width: "30vw" }}>
+            {!isHidden && <div style={{ height: "100vh", width: "30vw" }}>
                 <img
                     src={signupImage}
                     alt="image"
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
-            </div>
+            </div>}
         </div>
     );
 };

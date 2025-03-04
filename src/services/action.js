@@ -147,3 +147,18 @@ export const getTopLink = async (token) => {
   });
   return response.data;
 };
+
+export const sendVerificationCode = async (email) => {
+  const response = await axios.post(`${API_URL}/forgotpassword`, { email });
+  return response.data;
+};
+
+// Submit code and reset password
+export const resetPassword = async (email, code, newPassword) => {
+  const response = await axios.post(`${API_URL}/resetpassword`, {
+    email,
+    code,
+    newPassword,
+  });
+  return response.data;
+};
