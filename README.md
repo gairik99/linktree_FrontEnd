@@ -35,9 +35,14 @@ SPARK/
 │── public/
 │── src/
 │   │── components/
+|   │── styles/
+|   │── context/
+|   │── services/
+|   │── utils/
 │   │── pages/
 │   ├── App.js
 │   ├── index.js
+|  
 │── .gitignore
 │── package.json
 │── README.md
