@@ -34,7 +34,7 @@ const GetClickByos = () => {
     }));
     // console.log(clickOs)
     return (
-        <div style={{ width: '100%', maxWidth: 600, margin: '20px auto', background: 'white', padding: '0.5rem', borderRadius: '10px' }}>
+        <div style={{ width: '100%', maxWidth: 600, background: 'white', padding: '0.5rem', borderRadius: '10px', height: 400 }}>
             <h2>Traffic by Device</h2>
             {chartData.length > 0 ? (
                 <BarChart

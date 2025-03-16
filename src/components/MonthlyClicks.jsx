@@ -53,7 +53,7 @@ const MonthlyClicks = () => {
                         color: '#22D679'
                     }]}
                     height={300}
-                    margin={{ left: 70 }}
+
                 />
             </LocalizationProvider>
         </div>

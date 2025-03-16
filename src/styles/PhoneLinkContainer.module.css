@@ -68,12 +68,13 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   align-items: center; /* Center grid items vertically */
-  justify-items: center; /* Center grid items horizontally */
+  justify-items: center;
+  overflow-y: scroll; /* Center grid items horizontally */
 }
 
 .grid .linkItem {
   margin-bottom: 0;
-  height: 100%; /* Take full height of grid cell */
+  height: 200px; /* Take full height of grid cell */
 }
 .grid .content {
   display: flex;

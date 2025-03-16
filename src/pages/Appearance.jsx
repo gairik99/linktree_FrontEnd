@@ -17,7 +17,8 @@ import mineral2 from "../assets/mineral2.png";
 import mineral3 from "../assets/mineral3.png";
 import mineral4 from "../assets/mineral4.png";
 import { updateUserProfile } from "../services/action";
-import { IoEyeOutline } from "react-icons/io5";
+// import { IoEyeOutline } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
 import MobileNavBar from "../components/MobileNavBar";
 import MobileLogout from "../components/MobileLogout";
 
@@ -26,16 +27,22 @@ const Appearance = () => {
     const { style, setStyle } = useStyle();
     const [prevwiewModal, setPreviewModal] = useState(false);
     const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
-
     useEffect(() => {
         const handleResize = () => {
             setIsHidden(window.innerWidth <= 768);
         };
 
         window.addEventListener("resize", handleResize);
+        setStyle((prev) => ({
+            ...prev,
+            buttonAlignment: user.buttonAlignment,
+            buttonStyle: user.buttonStyle,
+        }));
         return () => window.removeEventListener("resize", handleResize);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    // console.log(style);
+
+    console.log(style);
     const themeArr = [
         { img: air1, title: "Air Snow", buttonColor: "#D9D9D9", theme: "#FFFFFF" },
         { img: air2, title: "Air Grey", buttonColor: "#FFFFFF", theme: "#EBEEF1" },
@@ -148,6 +155,9 @@ const Appearance = () => {
                         onClick={() =>
                             setStyle((prev) => ({ ...prev, buttonAlignment: "stack" }))
                         }
+                        style={{
+                            border: style.buttonAlignment === "stack" ? "4px solid grey" : "",
+                        }}
                     >
                         <img src={stack} alt="Item 1" className={styles.image} />
                         <p className={styles.text}>Stack</p>
@@ -158,6 +168,9 @@ const Appearance = () => {
                         onClick={() =>
                             setStyle((prev) => ({ ...prev, buttonAlignment: "grid" }))
                         }
+                        style={{
+                            border: style.buttonAlignment === "grid" ? "4px solid grey" : "",
+                        }}
                     >
                         <img src={grid} alt="Item 2" className={styles.image} />
                         <p className={styles.text}>Grid</p>
@@ -168,6 +181,10 @@ const Appearance = () => {
                         onClick={() =>
                             setStyle((prev) => ({ ...prev, buttonAlignment: "carousel" }))
                         }
+                        style={{
+                            border:
+                                style.buttonAlignment === "carousel" ? "4px solid grey" : "",
+                        }}
                     >
                         <img src={carousel} alt="Item 3" className={styles.image} />
                         <p className={styles.text}>Carousel</p>
@@ -206,6 +223,10 @@ const Appearance = () => {
                                         buttonColor: "#000000",
                                     }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button1" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button2}`}
@@ -216,6 +237,10 @@ const Appearance = () => {
                                         buttonColor: "#000000",
                                     }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button2" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button3}`}
@@ -226,6 +251,10 @@ const Appearance = () => {
                                         buttonColor: "#000000",
                                     }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button3" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                         </div>
                     </div>
@@ -246,18 +275,30 @@ const Appearance = () => {
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button4" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button4" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button5}`}
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button5" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button5" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button6}`}
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button6" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button6" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                         </div>
                     </div>
@@ -278,18 +319,30 @@ const Appearance = () => {
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button7" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button7" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button8}`}
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button8" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button8" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button9}`}
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button9" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button9" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                         </div>
                     </div>
@@ -309,18 +362,30 @@ const Appearance = () => {
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button10" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button10" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button11}`}
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button11" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button11" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button12}`}
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button12" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button12" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                         </div>
                     </div>
@@ -340,18 +405,30 @@ const Appearance = () => {
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button13" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button13" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button14}`}
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button14" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button14" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button15}`}
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button15" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button15" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                         </div>
                     </div>
@@ -370,12 +447,20 @@ const Appearance = () => {
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button16" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button16" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                             <button
                                 className={`${styles.button} ${styles.button17}`}
                                 onClick={() =>
                                     setStyle((prev) => ({ ...prev, buttonStyle: "button17" }))
                                 }
+                                style={{
+                                    border:
+                                        style.buttonStyle === "button17" ? "4px ridge  blue" : "",
+                                }}
                             ></button>
                         </div>
                     </div>
@@ -526,7 +611,7 @@ const Appearance = () => {
                         position: "absolute",
                         bottom: isHidden ? "-150px" : "-80px",
                         right: isHidden ? "" : "20px",
-                        left: isHidden ? '1px' : '',
+                        left: isHidden ? "1px" : "",
                         backgroundColor: "#4CAF50", // Green color
                         color: "white",
                         padding: "10px 20px",
@@ -561,7 +646,7 @@ const Appearance = () => {
                     }}
                     onClick={() => setPreviewModal(true)}
                 >
-                    <IoEyeOutline />
+                    <IoEyeOff />
                     <span>preview</span>
                 </div>
             )}

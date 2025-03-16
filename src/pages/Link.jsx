@@ -12,7 +12,7 @@ import Modal from "../components/Modal";
 import LinkContainer from "../components/LinkContainer";
 import icon from "../assets/Group.png";
 import MobileNavBar from "../components/MobileNavBar";
-import { IoEyeOutline } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
 import MobileLogout from "../components/MobileLogout";
 
 const Link = () => {
@@ -375,7 +375,7 @@ const Link = () => {
                     }}
                     onClick={() => setPreviewModal(true)}
                 >
-                    <IoEyeOutline />
+                    <IoEyeOff />
                     <span>preview</span>
                 </div>
             )}

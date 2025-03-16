@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/authContext";
+import { useLink } from "../context/linkContext";
 import SideBar from "../components/SideBar";
 import DatePicker from "react-datepicker";
 import { CiCalendar } from "react-icons/ci";
-import "react-datepicker/dist/react-datepicker.css";
 import { getClickByCategory } from "../services/action";
 import styles from "../styles/Analytics.module.css";
 import MonthlyClicks from "../components/MonthlyClicks";
@@ -13,12 +14,15 @@ import GetClickByDomain from "../components/GetClickByDomain";
 import GetLinkWithmaxClick from "../components/GetLinkWithmaxClick";
 import MobileLogout from "../components/MobileLogout";
 import MobileNavBar from "../components/MobileNavBar";
+import "react-datepicker/dist/react-datepicker.css";
+
 const Analytics = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [clickCategory, setClickCategory] = useState([]);
-    const { user } = useAuth();
-
+    const { user, setUser } = useAuth();
+    const { setLink } = useLink();
     const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleResize = () => {
@@ -47,6 +51,9 @@ const Analytics = () => {
                 setClickCategory(() => orderedData);
             } catch (error) {
                 toast.error("something went wrong", error);
+                setUser({ token: '' });
+                setLink([]);
+                navigate('/')
             }
         };
         fetchLinks();
@@ -83,14 +90,16 @@ const Analytics = () => {
                         gap: "1rem",
                     }}
                 >
-                    <h4 style={{ padding: "1rem", marginTop: "1.2rem" }}>Overview</h4>
-                    <div style={{ display: "flex", margin: isHidden ? 'auto' : "0px", borderRadius: "10px" }}>
+                    <h4 style={{ padding: "1rem", }}>Overview</h4>
+                    <div style={{ display: "flex", margin: isHidden ? 'auto' : "0px", borderRadius: "10px", alignItems: 'center' }}>
                         <div
                             style={{
                                 display: "flex",
                                 flexDirection: "column",
                                 justifyContent: "flex-end",
-                                margin: "1rem",
+                                alignItems: 'center',
+                                padding: '0.6rem'
+
                             }}
                         >
                             <CiCalendar />
@@ -99,6 +108,7 @@ const Analytics = () => {
                             selected={selectedDate}
                             onChange={(date) => setSelectedDate(date)}
                             dateFormat="yyyy-MM-dd"
+                            className={styles.datepickerInput}
                         />
                     </div>
                 </div>
@@ -138,19 +148,19 @@ const Analytics = () => {
                     <MonthlyClicks />
                 </div>
                 <div style={{ display: "flex", padding: "1rem", gap: "1rem", flexDirection: isHidden ? 'column' : '' }}>
-                    <div style={{ flex: 1, minHeight: 400 }}>
+                    <div style={{ flex: 1, height: 400 }}>
                         <GetClickByos />
                     </div>
-                    <div style={{ flex: 1, minHeight: 400, marginTop: "1.4rem" }}>
+                    <div style={{ flex: 1, minHeight: 400, marginTop: "0rem" }}>
                         <GetClickByDomain />
                     </div>
                 </div>
-                <div style={{ padding: isHidden ? "0rem" : "1rem", marginRight: isHidden ? '1.8rem' : '' }}>
+                <div style={{ padding: "1rem", marginRight: isHidden ? '1.8rem' : '', width: isHidden ? '100%' : '' }}>
                     <GetLinkWithmaxClick />
                 </div>
             </div>
             {isHidden && (
-                <div style={{ width: "90%" }}>
+                <div style={{ width: "90%", }}>
                     <MobileNavBar />
                 </div>
             )}

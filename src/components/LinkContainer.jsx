@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLink } from "../context/linkContext";
 import { useAuth } from "../context/authContext";
@@ -17,7 +18,8 @@ const LinkContainer = () => {
     const [localLink, setLocallink] = useState([]);
     const { activeTab } = useTab();
     const { link, setLink } = useLink();
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
+    const navigate = useNavigate();
     useEffect(() => {
         setLocallink(link.filter((linkItem) => linkItem.category === activeTab));
     }, [link, activeTab]);
@@ -25,11 +27,14 @@ const LinkContainer = () => {
         const fetchLinks = async () => {
             try {
                 const newdata = await getLinkWithClicks(user.token);
-                // console.log("linkcontainer", newdata.data.links);
+                // console.log("linkcontainer", newdata);
                 setLink(newdata.data.links);
                 // console.log("Link data:", link);
             } catch (error) {
-                toast.error("something went wrong", error);
+                toast.error(error);
+                setUser({ token: '' });
+                setLink([]);
+                navigate('/')
             }
         };
         fetchLinks();

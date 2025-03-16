@@ -39,8 +39,10 @@ const GetLinkWithmaxClick = () => {
             sx={{
                 background: "white",
                 borderRadius: "10px",
-                height: "100%",
-                ml: 3
+                height: 400,
+                mb: 3,
+                ml: 0,
+
             }}
         >
             <Typography variant="h5" gutterBottom sx={{ mb: 3, p: 1 }}>
