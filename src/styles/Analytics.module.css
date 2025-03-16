@@ -28,3 +28,11 @@
   font-weight: bold;
   color: rgb(20, 19, 19);
 }
+
+.datepickerInput {
+  margin-top: 0 !important; /* Override unwanted global margin */
+  width: 80%; /* Adjust width if necessary */
+  padding: 0.6rem;
+  border-radius: 6px;
+  align-items: center;
+}

@@ -36,11 +36,13 @@ const GetClickByDomain = () => {
     // console.log('clickDomain', clickDomain)
     return (
         <Container sx={{
-            p: 1,
             textAlign: 'start',
             background: 'white',
             borderRadius: '10px',
-            height: '95%', // Add this
+            width: '100%',
+            maxWidth: 600,
+            height: 400,
+            padding: '0.5rem', // Add this
         }}>
             <Typography variant="h5" gutterBottom>
                 Sites

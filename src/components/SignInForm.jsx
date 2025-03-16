@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosEyeOff } from "react-icons/io";
+import { IoMdEye } from "react-icons/io";
 import { toast } from "react-toastify";
 import { loginUser } from "../services/action";
 import { useAuth } from "../context/authContext";
@@ -10,12 +11,13 @@ import styles from "../styles/SignUpform.module.css";
 // eslint-disable-next-line react/prop-types
 const SignInForm = ({ hidden }) => {
     const navigate = useNavigate();
-    const { setUser } = useAuth();
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
-    const [loading, setLoading] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const { setUser } = useAuth();
     // console.log(formData);
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -56,7 +58,7 @@ const SignInForm = ({ hidden }) => {
                 id: response.user._id
 
             }));
-            console.log(response);
+            // console.log(response);
 
             // Handle successful registration
             if (response.status === "ok") {
@@ -105,14 +107,16 @@ const SignInForm = ({ hidden }) => {
                 </div>
                 <div className={styles.formGroup} style={{ position: "relative" }}>
                     <input
-                        type="password"
+                        type={visible ? "text" : "password"}
                         id="password"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
                         placeholder="password"
                     />
-                    <IoIosEyeOff className={styles.eyeIcon} />
+                    <div onClick={() => setVisible(prev => !prev)}>
+                        {!visible ? <IoIosEyeOff className={styles.eyeIcon} /> : <IoMdEye className={styles.eyeIcon} />}
+                    </div>
                 </div>
                 <button
                     type="submit"
