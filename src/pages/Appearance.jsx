@@ -37,12 +37,13 @@ const Appearance = () => {
             ...prev,
             buttonAlignment: user.buttonAlignment,
             buttonStyle: user.buttonStyle,
+            theme: user.theme,
         }));
         return () => window.removeEventListener("resize", handleResize);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log(style);
+    // console.log(style);
     const themeArr = [
         { img: air1, title: "Air Snow", buttonColor: "#D9D9D9", theme: "#FFFFFF" },
         { img: air2, title: "Air Grey", buttonColor: "#FFFFFF", theme: "#EBEEF1" },
@@ -587,7 +588,10 @@ const Appearance = () => {
                         <div
                             key={index}
                             className={styles.themeItem}
-                            style={{ marginBlock: isHidden ? "2rem" : "" }}
+                            style={{
+                                marginBlock: isHidden ? "2rem" : "",
+                                border: style.theme === theme.theme ? "4px ridge  blue" : "",
+                            }}
                             onClick={() =>
                                 setStyle((prev) => ({
                                     ...prev,
