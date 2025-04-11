@@ -37,7 +37,7 @@ const Home = () => {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-    console.log(isHidden);
+    // console.log(isHidden);
     const images = [
         img1, img2, img3,
         img4, img5, img6,
@@ -126,9 +126,9 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className={styles.box}>
-                    <div className={styles.row} style={{ fontSize: '1.2rem', fontWeight: '520' }}>Amazing Tool! Saved me months</div>
-                    <div className={styles.row}>This is a placeholder for your testimonials and what the client has to say,put them here and make sure it is 100% true and meaningful</div>
+                <div className={styles.box} style={{ width: isHidden ? '400px' : '', height: isHidden ? '300px' : '' }}>
+                    <div className={styles.row} style={{ fontSize: '1.2rem', fontWeight: '520', width: isHidden ? '400px' : '' }}>Amazing Tool! Saved me months</div>
+                    <div className={styles.row} style={{ width: isHidden ? '400px' : '' }}>This is a placeholder for your testimonials and what the client has to say,put them here and make sure it is 100% true and meaningful</div>
                     <div className={styles.rowBottom}>
                         <div className={styles.circle}></div>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
