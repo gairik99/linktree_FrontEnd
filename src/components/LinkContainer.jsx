@@ -1,60 +1,125 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLink } from "../context/linkContext";
 import { useAuth } from "../context/authContext";
-import { updateLink, deleteLink, getLinkWithClicks } from "../services/action";
+import { updateLink, deleteLink, getLinkWithClickPagenation } from "../services/action";
 import { useTab } from "../context/tabContext";
 import Switch from "./Switch";
 import { extractDomain } from "../services/extractDomain";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import styles from "../styles/LinkContainer.module.css";
-import click from "../assets/click.png"
+import click from "../assets/click.png";
 
 const LinkContainer = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedLink, setSelectedLink] = useState(null);
-    const [localLink, setLocallink] = useState([]);
     const { activeTab } = useTab();
-    const { link, setLink } = useLink();
+    const { link: allLinks, setLink: setAllLinks } = useLink();
     const { user, setUser } = useAuth();
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const observer = useRef();
+
+    // Filter links for current tab
+    const filteredLinks = useMemo(() => {
+        return allLinks.filter(linkItem => linkItem.category === activeTab);
+    }, [allLinks, activeTab]);
+
+    // Intersection Observer callback
+    const lastLinkRef = useCallback((node) => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPage(prev => prev + 1);
+            }
+        });
+
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore]);
+
+    // Fetch links from API
+    const fetchLinks = useCallback(async (pageNum = 1, append = false) => {
+        setIsLoading(true);
+        try {
+            const result = await getLinkWithClickPagenation(
+                user.token,
+                pageNum,
+                activeTab
+            );
+            const newLinks = result.data.links;
+            // console.log('called')
+            setHasMore(newLinks.length === 4); // Assuming 4 items per page
+
+            if (append) {
+                // Merge new links with existing, avoid duplicates
+                setAllLinks(prev => [
+                    ...prev.filter(link =>
+                        !newLinks.some(newLink => newLink._id === link._id)
+                    ),
+                    ...newLinks
+                ]);
+            } else {
+                // Preserve links from other categories
+                setAllLinks(prev => [
+                    ...prev.filter(link => link.category !== activeTab),
+                    ...newLinks
+                ]);
+            }
+        } catch (error) {
+            toast.error("Failed to fetch links");
+            console.error("Fetch error:", error);
+            setUser({ token: "" });
+            setAllLinks([]);
+            navigate("/");
+        } finally {
+            setIsLoading(false);
+        }
+    }, [user.token, activeTab, setAllLinks, setUser, navigate]);
+
+    // Initial fetch and tab change handler
     useEffect(() => {
-        setLocallink(link.filter((linkItem) => linkItem.category === activeTab));
-    }, [link, activeTab]);
+        setPage(1);
+        fetchLinks(1, false);
+    }, [activeTab, fetchLinks]);
+
+    // Page change handler
     useEffect(() => {
-        const fetchLinks = async () => {
-            try {
-                const newdata = await getLinkWithClicks(user.token);
-                // console.log("linkcontainer", newdata);
-                setLink(newdata.data.links);
-                // console.log("Link data:", link);
-            } catch (error) {
-                toast.error(error);
-                setUser({ token: '' });
-                setLink([]);
-                navigate('/')
+        if (page > 1) {
+            fetchLinks(page, true);
+        }
+    }, [page, fetchLinks]);
+
+    // Cleanup observer on unmount
+    useEffect(() => {
+        return () => {
+            if (observer.current) {
+                observer.current.disconnect();
             }
         };
-        fetchLinks();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleEdit = (linkItem) => {
         setSelectedLink(linkItem);
         setIsModalOpen(true);
     };
-    // console.log("Selected link:", selectedLink);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setSelectedLink((prev) => ({
+        setSelectedLink(prev => ({
             ...prev,
             [name]: value,
         }));
     };
+
     const handleSave = async () => {
+        if (!selectedLink) return;
+
         try {
             const domain = extractDomain(selectedLink.linkUrl);
             await updateLink(user.token, selectedLink._id, {
@@ -63,37 +128,63 @@ const LinkContainer = () => {
                 domain,
             });
 
-            // Refresh links after successful update
-            const freshData = await getLinkWithClicks(user.token);
-            setLink(freshData.data.links);
+            // Refresh current tab
+            // const result = await getLinkWithClickPagenation(
+            //     user.token,
+            //     page,
+            //     activeTab
+            // );
+            // const updatedLinks = result.data.links;
+            // console.log(updatedLinks)
+
+            // // Update context while preserving other categories
+            // setAllLinks(prev => [
+            //     ...prev.filter(link => link.category !== activeTab),
+            //     ...updatedLinks
+            // ]);
+            fetchLinks(1, true);
 
             setIsModalOpen(false);
             toast.success("Link updated successfully");
         } catch (error) {
-            toast.error("Failed to update link", error);
-            // Handle error (show message, etc)
+            toast.error("Failed to update link");
+            console.error("Update error:", error);
         }
     };
-    // console.log("Local link:", localLink);
-    // console.log("selected link:", selectedLink);
 
     const handleDelete = async (linkId) => {
         try {
             await deleteLink(user.token, linkId);
-            const freshData = await getLinkWithClicks(user.token);
-            setLink(freshData.data.links);
+
+            // Refresh current tab
+            // const result = await getLinkWithClickPagenation(
+            //     user.token,
+            //     page,
+            //     activeTab
+            // );
+            // const updatedLinks = result.data.links;
+
+            // Update context while preserving other categories
+            let link = allLinks.filter(link => link._id != linkId)
+            setAllLinks(link);
+
             toast.success("Link deleted successfully");
         } catch (error) {
-            toast.error("Failed to delete link", error);
+            toast.error("Failed to delete link");
+            console.error("Delete error:", error);
         }
     };
 
     return (
         <div className={styles.linkContainer}>
             <ul className={styles.linkList}>
-                {localLink && localLink.length > 0 ? (
-                    localLink.map((linkItem) => (
-                        <li key={linkItem._id} className={styles.linkItem}>
+                {filteredLinks.length > 0 ? (
+                    filteredLinks.map((linkItem, index) => (
+                        <li
+                            key={linkItem._id}
+                            className={styles.linkItem}
+                            ref={index === filteredLinks.length - 1 ? lastLinkRef : null}
+                        >
                             <div className={styles.linkContent}>
                                 <span className={styles.domain}>{linkItem.domain}</span>
                                 <div className={styles.urlContainer}>
@@ -107,7 +198,7 @@ const LinkContainer = () => {
                                     </a>
                                     <Switch
                                         defaultChecked={true}
-                                        onChange={() => { }} // Empty function for showcase
+                                        onChange={() => { }}
                                         className={styles.showcaseSwitch}
                                     />
                                 </div>
@@ -131,21 +222,23 @@ const LinkContainer = () => {
                                         <MdDeleteOutline />
                                     </button>
                                 </div>
-
                             </div>
                         </li>
                     ))
-                ) : (
+                ) : !isLoading ? (
                     <p className={styles.noLinks}>No links found</p>
-                )}
+                ) : null}
             </ul>
+
+            {isLoading && <p className={styles.loading}>Loading more links...</p>}
+
             {isModalOpen && selectedLink && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modal}>
                         <h2>Edit Link</h2>
                         <div className={styles.modalContent}>
                             <label>
-                                linkTitle:
+                                Title:
                                 <input
                                     type="text"
                                     name="linkTitle"
@@ -155,7 +248,7 @@ const LinkContainer = () => {
                                 />
                             </label>
                             <label>
-                                linkUrl:
+                                URL:
                                 <input
                                     type="text"
                                     name="linkUrl"
@@ -166,7 +259,11 @@ const LinkContainer = () => {
                             </label>
                         </div>
                         <div className={styles.modalActions}>
-                            <button className={styles.saveButton} onClick={handleSave}>
+                            <button
+                                className={styles.saveButton}
+                                onClick={handleSave}
+                                disabled={!selectedLink.linkTitle || !selectedLink.linkUrl}
+                            >
                                 Save
                             </button>
                             <button
@@ -182,5 +279,5 @@ const LinkContainer = () => {
         </div>
     );
 };
-//
+
 export default LinkContainer;

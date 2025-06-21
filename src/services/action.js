@@ -98,6 +98,22 @@ export const getLinkWithClicks = async (token) => {
   });
   return response.data;
 };
+export const getLinkWithClickPagenation = async (
+  token,
+  page = 1,
+  category = "link"
+) => {
+  const response = await axios.get(
+    `${API_URL}/link/getlinkwithclicks?page=${page}&category=${category}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.data;
+};
 
 export const getClickByCategory = async (token) => {
   const response = await axios.get(`${API_URL}/click/getclickbycategory`, {

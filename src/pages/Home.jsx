@@ -175,7 +175,7 @@ const Home = () => {
                 {
                     isHidden && <div style={{ display: 'flex', margin: '2rem' }}>
                         <button style={{ background: '#D3D3D3', marginRight: '1vw', height: '8vh', width: '20vw', border: 'none', borderRadius: '10px' }} onClick={() => navigate('/signin')} >Log in</button>
-                        <button className={styles.button1} style={{ height: '8vh', width: '20vw' }} onClick={() => navigate('/signup')}>Sign up</button>
+                        <button className={styles.button1} onClick={() => navigate('/signup')}>Sign up</button>
                     </div>
                 }
             </div>

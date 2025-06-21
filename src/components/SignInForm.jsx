@@ -93,7 +93,7 @@ const SignInForm = ({ hidden }) => {
                 style={{ alignItems: "start", marginTop: "15vh", width: hidden ? '90vw' : '' }}
             >
                 <h1 className={styles.heading} style={{ margin: "1vh" }}>
-                    Sign up to your Spark
+                    Sign In to your Spark
                 </h1>
                 <div className={styles.formGroup}>
                     <input

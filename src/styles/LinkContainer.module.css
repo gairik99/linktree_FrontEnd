@@ -2,6 +2,8 @@
   width: 100%;
   max-width: 700px;
   margin-top: 2rem;
+  height: 76vh;
+  overflow-y: scroll;
 }
 
 .linkList {

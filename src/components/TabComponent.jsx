@@ -11,17 +11,20 @@ const TabComponent = ({ logo }) => {
         <div
             style={{
                 display: "flex",
-                width: "200px",
+                flexDirection: "row",
+                width: "240px",
                 backgroundColor: "grey",
                 borderRadius: "20px",
                 marginTop: "1rem",
+                alignItems: "center",
+                justifyContent: "center"
             }}
         >
             <button
                 onClick={() => setActiveTab("link")}
                 style={{
                     flex: 1,
-                    padding: "12px 0",
+                    padding: "4px 0",
                     border: "none",
                     background: activeTab == "link" ? "#4caf50" : "none",
                     cursor: "pointer",
@@ -31,20 +34,29 @@ const TabComponent = ({ logo }) => {
                     borderRadius: activeTab === "link" ? "20px" : "0",
                     transition: "all 0.2s ease",
                     margin: 0,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
                 }}
             >
                 <span
                     style={{
                         display: "flex",
+                        flexDirection: 'row',
                         justifyContent: "center",
                         alignItems: "center",
                     }}
                 >
                     {logo ? (
-                        <span>
-                            <img src={shop} style={{ width: "15px", height: "15px" }} />
-                            <span>Add Link </span>
-                        </span>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: 'row',
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}>
+                            <img src={shop} style={{ width: "15px", height: "15px", margin: '4px', padding: '4px' }} />
+                            <p>Add Link </p>
+                        </div>
                     ) : (
                         <span>Link</span>
                     )}
@@ -57,7 +69,7 @@ const TabComponent = ({ logo }) => {
                     justifyContent: "center",
                     alignItems: "center",
                     flex: 1,
-                    padding: "12px 0",
+                    padding: "4px 0",
                     border: "none",
                     background: activeTab == "shop" ? "#4caf50" : "none",
                     cursor: "pointer",
@@ -77,14 +89,19 @@ const TabComponent = ({ logo }) => {
                     }}
                 >
                     {logo ? (
-                        <span>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: 'row',
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}>
                             <img
                                 src={shop}
                                 alt="shop logo"
-                                style={{ width: "15px", height: "15px" }}
+                                style={{ width: "15px", height: "15px", margin: '4px', padding: '4px' }}
                             />
-                            <span>Add Shop</span>
-                        </span>
+                            <p>Add Shop</p>
+                        </div>
                     ) : (
                         <span>Shop</span>
                     )}
