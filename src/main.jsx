@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { AuthProvider } from './context/authContext.jsx'
+// import { AuthProvider } from './context/authContext.jsx'
 import { TabProvider } from './context/tabContext.jsx'
 import { LinkProvider } from './context/linkContext.jsx'
 import { StyleProvider } from './context/styleContext.jsx'
@@ -17,16 +17,14 @@ createRoot(document.getElementById('root')).render(
     <StyleProvider>
       <LinkProvider>
         <TabProvider>
-          <AuthProvider>
-            <Provider store={store}>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </Provider>
-          </AuthProvider>
+          <Provider store={store}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </Provider>
         </TabProvider>
       </LinkProvider>
     </StyleProvider>
     <ToastContainer />
-  </StrictMode>,
+  </StrictMode >,
 )
