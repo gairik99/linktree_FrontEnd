@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from 'react';
-import { useAuth } from "../context/authContext"
+import { useSelector } from "react-redux";
+// import { useAuth } from "../context/authContext"
 import NavBar from "../components/NavBar"
 import styles from "../styles/Home.module.css"
 import analytics1 from "../assets/analytics1.png"
@@ -22,7 +23,7 @@ import footerimage from "../assets/footerImg.png"
 
 const Home = () => {
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     useEffect(() => {
         if (user.token)
             navigate('/link')

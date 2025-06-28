@@ -1,8 +1,10 @@
 import { useRef, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../slices/authSlice";
 import { toast } from "react-toastify";
 import SideBar from "../components/SideBar";
 import PhoneView from "../components/PhoneView";
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
 import { uploadImage } from "../services/cloudinary";
 import { updateUserProfile } from "../services/action";
 import person from "../assets/person.png";
@@ -18,7 +20,7 @@ import MobileLogout from "../components/MobileLogout";
 const Link = () => {
     const [prevwiewModal, setPreviewModal] = useState(false);
     const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
-
+    const dispatch = useDispatch();
     useEffect(() => {
         const handleResize = () => {
             setIsHidden(window.innerWidth <= 768);
@@ -35,7 +37,7 @@ const Link = () => {
         { id: 3, color: "#000000", background: "#FFFFFF" },
     ];
 
-    const { user, setUser } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const fileInputRef = useRef(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(user?.imageurl || null);
@@ -101,8 +103,16 @@ const Link = () => {
                 console.log("response", response);
                 if (response.status == "ok") {
                     toast.success("profile update successful");
-                    setUser((prev) => ({
-                        ...prev,
+                    // setUser((prev) => ({
+                    //     ...prev,
+                    //     userName: response.user.userName,
+                    //     bio: response.user.bio,
+                    //     bannerColor: response.user.bannerColor,
+                    //     bannerBackground: response.user.bannerBackground,
+                    //     imageurl: response.user.imageurl,
+                    // }));
+                    dispatch(setUser({
+                        ...user,
                         userName: response.user.userName,
                         bio: response.user.bio,
                         bannerColor: response.user.bannerColor,

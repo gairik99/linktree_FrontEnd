@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
+import { useSelector } from "react-redux";
 import { getClickByDomain } from "../services/action"
 import { PieChart } from '@mui/x-charts/PieChart';
 import { Container, Typography } from "@mui/material";
 
 const GetClickByDomain = () => {
-    const { user } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const [clickDomain, setClickDomain] = useState([])
     useEffect(() => {
         const fetchLinks = async () => {

@@ -1,8 +1,9 @@
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
+import { useSelector } from "react-redux";
 import { createClick } from "../services/action";
 import { toast } from "react-toastify";
 const GetConnectButton = () => {
-    const { user } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     // console.log(user)
     const handleCtaClick = async () => {
         try {

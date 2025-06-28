@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useLink } from '../context/linkContext'
 import { useStyle } from '../context/styleContext'
-import { useAuth } from '../context/authContext'
+// import { useAuth } from '../context/authContext'
 import youtube from '../assets/youtube.png'
 import facebook from '../assets/facebook.png'
 import x from '../assets/twitter.png'
@@ -15,7 +16,7 @@ import { createClick } from '../services/action'
 const PhoneLinkContainer = () => {
     const { link } = useLink();
     const { style } = useStyle();
-    const { user } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const [localLink, setLocallink] = useState([]);
 
     let theme = style.theme || user.theme

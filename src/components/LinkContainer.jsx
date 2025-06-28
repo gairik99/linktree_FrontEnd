@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useLink } from "../context/linkContext";
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
 import { updateLink, deleteLink, getLinkWithClickPagenation } from "../services/action";
 import { useTab } from "../context/tabContext";
 import Switch from "./Switch";
@@ -17,7 +18,7 @@ const LinkContainer = () => {
     const [selectedLink, setSelectedLink] = useState(null);
     const { activeTab } = useTab();
     const { link: allLinks, setLink: setAllLinks } = useLink();
-    const { user, setUser } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -74,13 +75,12 @@ const LinkContainer = () => {
         } catch (error) {
             toast.error("Failed to fetch links");
             console.error("Fetch error:", error);
-            setUser({ token: "" });
             setAllLinks([]);
             navigate("/");
         } finally {
             setIsLoading(false);
         }
-    }, [user.token, activeTab, setAllLinks, setUser, navigate]);
+    }, [user.token, activeTab, setAllLinks, navigate]);
 
     // Initial fetch and tab change handler
     useEffect(() => {

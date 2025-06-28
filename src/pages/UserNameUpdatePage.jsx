@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
+import { setUser } from "../slices/authSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { updateUserProfile } from "../services/action";
 import signupImage from "../assets/signup.png";
 import styles from "../styles/UserNameUpdatePage.module.css";
@@ -25,7 +27,8 @@ const buttonArr = [
 
 const UserNameUpdatePage = () => {
     const navigate = useNavigate();
-    const { user, setUser } = useAuth();
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
     const [formData, setFormData] = useState({
         userName: user.userName || "",
         category: user.category || "",
@@ -56,15 +59,26 @@ const UserNameUpdatePage = () => {
                 return;
             }
             const response = await updateUserProfile(formData, user.token);
+            // if (response.message) {
+            //     toast.success(response.message);
+            //     setUser(prev => ({
+            //         ...prev,
+            //         userName: response.user.userName,
+            //         category: response.user.category
+            //     }));
+            //     if (user.token)
+            //         navigate("/link");
+            // }
             if (response.message) {
                 toast.success(response.message);
-                setUser(prev => ({
-                    ...prev,
+                dispatch(setUser({
+                    ...user,
                     userName: response.user.userName,
                     category: response.user.category
                 }));
-                if (user.token)
+                if (user.token) {
                     navigate("/link");
+                }
             }
 
 

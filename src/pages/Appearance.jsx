@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import SideBar from "../components/SideBar";
 import PhoneView from "../components/PhoneView";
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
 import styles from "../styles/Appearance.module.css";
 import stack from "../assets/stack.png";
 import grid from "../assets/grid.png";
 import carousel from "../assets/carousel.png";
 import { useStyle } from "../context/styleContext";
+import { setUser } from "../slices/authSlice";
 import { toast } from "react-toastify";
 import air1 from "../assets/air1.png";
 import air2 from "../assets/air2.png";
@@ -23,7 +25,8 @@ import MobileNavBar from "../components/MobileNavBar";
 import MobileLogout from "../components/MobileLogout";
 
 const Appearance = () => {
-    const { user, setUser } = useAuth();
+    const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch();
     const { style, setStyle } = useStyle();
     const [prevwiewModal, setPreviewModal] = useState(false);
     const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
@@ -89,8 +92,16 @@ const Appearance = () => {
                 const response = await updateUserProfile(payload, user.token);
                 // Add success handling here (e.g., show notification)
                 if (response.status === "ok") {
-                    setUser((prev) => ({
-                        ...prev,
+                    // setUser((prev) => ({
+                    //     ...prev,
+                    //     buttonAlignment: response.user.buttonAlignment,
+                    //     buttonStyle: response.user.buttonStyle,
+                    //     buttonColor: response.user.buttonColor,
+                    //     buttonFontColor: response.user.buttonFontColor,
+                    //     theme: response.user.theme,
+                    // }));
+                    dispatch(setUser({
+                        ...user,
                         buttonAlignment: response.user.buttonAlignment,
                         buttonStyle: response.user.buttonStyle,
                         buttonColor: response.user.buttonColor,

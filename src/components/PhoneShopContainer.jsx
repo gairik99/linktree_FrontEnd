@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useLink } from '../context/linkContext'
 import { useStyle } from '../context/styleContext'
-import { useAuth } from '../context/authContext'
+// import { useAuth } from '../context/authContext'
 import shopimg from '../assets/shopimg.png'
 import shopimg2 from '../assets/shopimg2.png'
 import styles from '../styles/PhoneShopContainer.module.css'
@@ -12,7 +13,7 @@ import { createClick } from '../services/action'
 const PhoneShopContainer = () => {
     const { link } = useLink();
     const { style } = useStyle();
-    const { user } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const [localLink, setLocallink] = useState([]);
 
     let theme = style.theme || user.theme

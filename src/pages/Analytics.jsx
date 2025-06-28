@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/authContext";
+import { useSelector, useDispatch } from "react-redux";
+// import { useAuth } from "../context/authContext";
+import { clearUser } from "../slices/authSlice";
 import { useLink } from "../context/linkContext";
 import SideBar from "../components/SideBar";
 import DatePicker from "react-datepicker";
@@ -19,7 +21,8 @@ import "react-datepicker/dist/react-datepicker.css";
 const Analytics = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [clickCategory, setClickCategory] = useState([]);
-    const { user, setUser } = useAuth();
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
     const { setLink } = useLink();
     const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
     const navigate = useNavigate();
@@ -51,7 +54,7 @@ const Analytics = () => {
                 setClickCategory(() => orderedData);
             } catch (error) {
                 toast.error("something went wrong", error);
-                setUser({ token: '' });
+                dispatch(clearUser());
                 setLink([]);
                 navigate('/')
             }

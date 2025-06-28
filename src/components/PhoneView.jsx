@@ -1,7 +1,8 @@
 import share from "../assets/share.png";
 import person from "../assets/person.png";
 import icon from "../assets/Group.png";
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
+import { useSelector } from "react-redux";
 import { useStyle } from "../context/styleContext";
 import TabComponent from "../components/TabComponent";
 import PhoneLinkContainer from "./PhoneLinkContainer";
@@ -11,7 +12,7 @@ import PhoneShopContainer from "./PhoneShopContainer";
 import { useTab } from "../context/tabContext";
 
 const PhoneView = () => {
-    const { user } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const { style } = useStyle();
     const { activeTab } = useTab();
     // console.log(user);

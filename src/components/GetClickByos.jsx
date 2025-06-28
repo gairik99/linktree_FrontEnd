@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getClickByOs } from "../services/action"
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
+import { useSelector } from "react-redux";
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts';
 
 const GetClickByos = () => {
-    const { user } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const [clickOs, setClickOs] = useState([])
     useEffect(() => {
         const fetchLinks = async () => {

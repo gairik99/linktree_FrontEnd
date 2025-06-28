@@ -1,19 +1,23 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearUser } from '../slices/authSlice';
 import styles from "../styles/Link.module.css";
 import logo from '../assets/Group.png';
 import person from "../assets/person.png";
-import { useAuth } from '../context/authContext';
+// import { useAuth } from '../context/authContext';
 import { useLink } from "../context/linkContext";
 
 const MobileLogout = () => {
-    const { user, setUser } = useAuth();
+    const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch();
     const { setLink } = useLink();
     const [showLogoutPopup, setShowLogoutPopup] = useState(false);
     const navigate = useNavigate();
     const handleLogout = () => {
         // Add your logout logic here
-        setUser({ token: '' });
+        // setUser({ token: '' });
+        dispatch(clearUser());
         setLink([])
         navigate('/')
         setShowLogoutPopup(false);

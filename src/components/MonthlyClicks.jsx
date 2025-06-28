@@ -4,12 +4,13 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { getClickByMonth } from '../services/action';
-import { useAuth } from '../context/authContext';
+// import { useAuth } from '../context/authContext';
+import { useSelector } from 'react-redux';
 
 
 const MonthlyClicks = () => {
     // Ensure data is sorted by month (assuming months are in format 1-12)
-    const { user } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const [clickMonth, setClickMonth] = useState([]);
 
     useEffect(() => {

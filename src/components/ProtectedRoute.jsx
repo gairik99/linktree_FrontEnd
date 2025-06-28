@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/authContext';
+// import { useAuth } from '../context/authContext';
+import { useSelector } from 'react-redux';
 
 // eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ children }) => {
-    const { user } = useAuth(); // Retrieve user info from context
+    const user = useSelector((state) => state.auth.user);// Retrieve user info from context
     const navigate = useNavigate();
 
     useEffect(() => {

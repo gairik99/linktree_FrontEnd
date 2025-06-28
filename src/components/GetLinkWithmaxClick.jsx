@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
+import { useSelector } from "react-redux";
 import { getTopLink } from "../services/action";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { Typography, Container } from "@mui/material";
 
 const GetLinkWithmaxClick = () => {
-    const { user } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const [topLink, setTopLink] = useState([]);
     useEffect(() => {
         const fetchLinks = async () => {

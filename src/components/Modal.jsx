@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import TabComponent from './TabComponent';
 import { useTab } from '../context/tabContext';
-import { useAuth } from '../context/authContext';
+// import { useAuth } from '../context/authContext';
 import { extractDomain } from '../services/extractDomain';
 import { createLink } from '../services/action';
 import { useLink } from '../context/linkContext';
@@ -22,7 +23,7 @@ const Modal = ({ onClose }) => {
         { src: twitter, text: 'X', id: '4' },
     ];
     const { activeTab } = useTab();
-    const { user } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const { link, setLink } = useLink()
     const [input, setInput] = useState({
         linkTitle: '',

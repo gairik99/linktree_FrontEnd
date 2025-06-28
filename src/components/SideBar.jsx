@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { useLink } from "../context/linkContext";
 import { NavLink } from "react-router-dom";
+import { clearUser } from "../slices/authSlice";
 import { CiLogout } from "react-icons/ci";
 import logo from "../assets/Group.png";
 import person from "../assets/person.png";
@@ -10,13 +12,14 @@ import link2 from "../assets/link2.png";
 import link3 from "../assets/link3.png";
 import link4 from "../assets/link4.png";
 import styles from "../styles/SideBar.module.css";
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
 
 const SideBar = () => {
     const [modal, setModal] = useState(false);
-    const { user, setUser } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const { setLink } = useLink();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const navItems = [
         { id: 1, text: "Links", path: "/link", icon: link1 },
         { id: 2, text: "Appearance", path: "/appearance", icon: link2 },
@@ -26,7 +29,8 @@ const SideBar = () => {
     // console.log(modal);
     const handleSignout = () => {
 
-        setUser({ token: '' });
+        // setUser({ token: '' });
+        dispatch(clearUser());
         setLink([])
         navigate('/')
 

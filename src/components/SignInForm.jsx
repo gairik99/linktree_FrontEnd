@@ -4,20 +4,22 @@ import { IoIosEyeOff } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import { toast } from "react-toastify";
 import { loginUser } from "../services/action";
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
+import { setUser } from "../slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import logo from "../assets/Group.png";
 import styles from "../styles/SignUpform.module.css";
 
 // eslint-disable-next-line react/prop-types
 const SignInForm = ({ hidden }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
     const [visible, setVisible] = useState(false);
-    const { setUser } = useAuth();
     // console.log(formData);
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,35 +41,46 @@ const SignInForm = ({ hidden }) => {
             };
 
             const response = await loginUser(userData);
-            setUser((prev) => ({
-                ...prev,
-                token: response.token,
-                userName: response.user.userName,
-                email: response.user.email,
-                imageurl: response.user.imageurl,
-                name: response.user.firstName + " " + response.user.lastName,
-                category: response.user.category,
-                bannerBackground: response.user.bannerBackground,
-                bio: response.user.bio,
-                bannerColor: response.user.bannerColor,
-                buttonAlignment: response.user.buttonAlignment,
-                buttonStyle: response.user.buttonStyle,
-                buttonColor: response.user.buttonColor,
-                buttonFontColor: response.user.buttonFontColor,
-                theme: response.user.theme,
-                id: response.user._id
+            // setUser((prev) => ({
+            //     ...prev,
+            //     token: response.token,
+            //     userName: response.user.userName,
+            //     email: response.user.email,
+            //     imageurl: response.user.imageurl,
+            //     name: response.user.firstName + " " + response.user.lastName,
+            //     category: response.user.category,
+            //     bannerBackground: response.user.bannerBackground,
+            //     bio: response.user.bio,
+            //     bannerColor: response.user.bannerColor,
+            //     buttonAlignment: response.user.buttonAlignment,
+            //     buttonStyle: response.user.buttonStyle,
+            //     buttonColor: response.user.buttonColor,
+            //     buttonFontColor: response.user.buttonFontColor,
+            //     theme: response.user.theme,
+            //     id: response.user._id
 
-            }));
-            // console.log(response);
-
-            // Handle successful registration
+            // }));
             if (response.status === "ok") {
-                toast.success("Signin successful!");
-                setFormData((prev) => ({
-                    ...prev,
-                    email: "",
-                    password: "",
-                }));
+                const userPayload = {
+                    token: response.token,
+                    userName: response.user.userName,
+                    email: response.user.email,
+                    imageurl: response.user.imageurl,
+                    name: `${response.user.firstName} ${response.user.lastName}`,
+                    category: response.user.category,
+                    bannerBackground: response.user.bannerBackground,
+                    bio: response.user.bio,
+                    bannerColor: response.user.bannerColor,
+                    buttonAlignment: response.user.buttonAlignment,
+                    buttonStyle: response.user.buttonStyle,
+                    buttonColor: response.user.buttonColor,
+                    buttonFontColor: response.user.buttonFontColor,
+                    theme: response.user.theme,
+                    id: response.user._id,
+                };
+                dispatch(setUser(userPayload));
+                // Handle successful registration
+                setFormData({ email: "", password: "" });
                 navigate("/usernameupdate");
             }
         } catch (error) {
@@ -79,7 +92,8 @@ const SignInForm = ({ hidden }) => {
             setLoading(false);
         }
     };
-
+    const user = useSelector((state) => state.auth.user);
+    console.log(user);
     return (
         <div className={styles.container} style={{ justifyContent: "start", width: hidden ? '100vw' : '' }}>
             <div className={styles.logoContainer}>

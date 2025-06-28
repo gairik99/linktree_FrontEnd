@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import SideBar from "../components/SideBar";
-import { useAuth } from "../context/authContext";
+// import { useAuth } from "../context/authContext";
+import { setUser } from "../slices/authSlice";
 import { validateUpdateForm } from "../utils/validateUpdateForm";
 import { updateUserProfile } from "../services/action";
 import styles from "../styles/Settings.module.css";
@@ -9,6 +11,7 @@ import MobileLogout from "../components/MobileLogout";
 import MobileNavBar from "../components/MobileNavBar";
 const Settings = () => {
     const [isHidden, setIsHidden] = useState(window.innerWidth <= 768);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const handleResize = () => {
@@ -19,7 +22,7 @@ const Settings = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const { user, setUser } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const [formData, setFormData] = useState({
         firstName: user?.name.split(" ")[0] || "",
         lastName: user?.name.split(" ")[1] || "",
@@ -29,7 +32,6 @@ const Settings = () => {
     });
 
     const handleSubmit = async () => {
-        // Handle form submission
         try {
             const err = validateUpdateForm(formData);
             if (err) {
@@ -42,17 +44,19 @@ const Settings = () => {
             if (formData.lastName) payload.lastName = formData.lastName;
             if (formData.email) payload.email = formData.email;
             if (formData.password) payload.password = formData.password;
+
             const response = await updateUserProfile(payload, user.token);
-            if (response.status == "ok") {
-                setUser((prev) => ({
-                    ...prev,
+
+            if (response.status === "ok") {
+                dispatch(setUser({
+                    ...user, // keep other user fields intact
                     name: response.user.firstName + " " + response.user.lastName,
                     email: response.user.email,
                 }));
-                toast.success("profile update successfully");
+                toast.success("Profile updated successfully");
             }
         } catch (err) {
-            toast.error("could not update profile", err);
+            toast.error("Could not update profile", err.message || err);
         }
     };
     // console.log(formData);
