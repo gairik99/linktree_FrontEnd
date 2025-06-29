@@ -14,6 +14,7 @@ const GetClickByDomain = () => {
             try {
                 const newdata = await getClickByDomain(user.token);
                 setClickDomain(newdata.data);
+                // console.log('clickDomain', newdata)
             } catch (error) {
                 toast.error("Something went wrong", error);
             }
@@ -21,6 +22,7 @@ const GetClickByDomain = () => {
         fetchLinks();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
 
     const chartData = clickDomain.map((item, index) => ({
         id: index,
